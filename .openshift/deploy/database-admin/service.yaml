@@ -1,0 +1,16 @@
+# -----------------------------------------------------------------------------
+# Author: Alejandro M. BERNARDIS
+# Email: alejandro.bernardis at gmail.com
+# -----------------------------------------------------------------------------
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: database-admin
+spec:
+  type: ClusterIP
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      targetPort: 8080
+      protocol: TCP

@@ -1,0 +1,86 @@
+# -----------------------------------------------------------------------------
+# Author: Alejandro M. BERNARDIS
+# Email: alejandro.bernardis at gmail.com
+# -----------------------------------------------------------------------------
+
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: database
+spec:
+  replicas: 1
+  serviceName: database
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+  volumeClaimTemplates:
+    - metadata:
+        name: database
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: thin-csi
+        resources:
+          requests:
+            storage: 1Gi
+  template:
+    spec:
+      serviceAccountName: database
+      terminationGracePeriodSeconds: 180
+      containers:
+        - name: database
+          image: registry.redhat.io/rhel9/mariadb-1011@sha256:e1f895874e4a86dedc0b5e0eb9ff923f7733484bde4acb20340cdb7abed4dd26
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+            - name: database
+              mountPath: /var/lib/mysql/data
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: database
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: root-password
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: database
+                  key: tz
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 4096Mi

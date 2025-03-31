@@ -1,0 +1,58 @@
+# -----------------------------------------------------------------------------
+# Author: Alejandro M. BERNARDIS
+# Email: alejandro.bernardis at gmail.com
+# -----------------------------------------------------------------------------
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: inventory
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://code.aap.aysa.ad/DAL/DDAL/dal-utiles.git
+      ref: develop
+    contextDir: /
+    dockerfile: |
+
+      FROM registry.redhat.io/rhscl/php-56-rhel7 AS base
+
+      USER 0
+      ADD . .
+      RUN chown -R 1001:0 .
+
+      USER 1001
+      RUN TEMPFILE=$(mktemp) && \
+        curl -o "$TEMPFILE" "https://getcomposer.org/installer" && \
+        php <"$TEMPFILE" && \
+        ./composer.phar install --no-interaction --no-ansi --optimize-autoloader
+      RUN mkdir -p ${APP_DATA}/storage/{app,framework,logs} | true
+      RUN mkdir -p ${APP_DATA}/storage/framework/{cache,dbcache,sessions} | true
+      RUN chmod -R 775 ${APP_DATA}/storage
+      CMD /usr/libexec/s2i/run
+
+      # USER 0
+      # ADD . /tmp/src
+      # RUN chown -R 1001:0 /tmp/src
+      # USER 1001
+      # RUN /usr/libexec/s2i/assemble
+      # RUN mkdir -p ${APP_DATA}/storage/{app,framework,logs} | true
+      # RUN mkdir -p ${APP_DATA}/storage/framework/{cache,dbcache,sessions} | true
+      # RUN chmod -R 775 ${APP_DATA}/storage
+      # CMD /usr/libexec/s2i/run
+
+    sourceSecret:
+      name: gitlab-token
+  strategy:
+    type: Docker
+  failedBuildsHistoryLimit: 1
+  successfulBuildsHistoryLimit: 3
+  runPolicy: Serial
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'inventory:latest'
+  triggers:
+    - type: ImageChange
+    - type: ConfigChange

@@ -1,0 +1,14 @@
+---
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+namespace: asa-dal-ddal-utiles-41
+
+resources:
+  - ../../deploy
+
+labels:
+  - pairs:
+      asa.environment: Testing
+      asa.environment.id: TST
+      asa.environment.range: '41'
+    includeSelectors: true

@@ -1,0 +1,35 @@
+---
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - ./database
+  - ./database-admin
+  - ./inventory
+
+labels:
+  - pairs:
+      app: inventory
+      app.kubernetes.io/part-of: inventory
+      asa.organization: asa-dal-ddal
+    includeSelectors: true
+
+commonAnnotations:
+  app.openshift.io/vcs-uri: 'https://code.aap.aysa.ad/DAL/DDAL/dal-utiles.git'
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: database
+    type: Opaque
+    envs:
+      - ./secrets/database
+  - name: inventory
+    type: Opaque
+    envs:
+      - ./secrets/inventory
+  - name: gitlab-token
+    type: kubernetes.io/basic-auth
+    envs:
+      - ./secrets/gitlab-token

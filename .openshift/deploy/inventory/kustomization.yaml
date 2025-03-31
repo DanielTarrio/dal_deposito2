@@ -1,0 +1,28 @@
+---
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - ./build-config.yaml
+  - ./deployment.yaml
+  - ./image-stream.yaml
+  - ./route.yaml
+  - ./service.yaml
+
+labels:
+  - pairs:
+      app.openshift.io/runtime: php
+      asa.airflow.component: inventory
+    includeSelectors: true
+
+commonAnnotations:
+  asa.airflow.component: inventory
+  app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"StatefulSet","name":"database"}]'
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: inventory
+    envs:
+      - ./inventory.env

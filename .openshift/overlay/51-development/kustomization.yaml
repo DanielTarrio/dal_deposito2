@@ -1,0 +1,14 @@
+---
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+namespace: asa-dal-ddal-utiles
+
+resources:
+  - ../../deploy
+
+labels:
+  - pairs:
+      asa.environment: Development
+      asa.environment.id: DVL
+      asa.environment.range: '51'
+    includeSelectors: true

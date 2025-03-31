@@ -1,0 +1,60 @@
+# -----------------------------------------------------------------------------
+# Author: Alejandro M. BERNARDIS
+# Email: alejandro.bernardis at gmail.com
+# -----------------------------------------------------------------------------
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: database-admin
+spec:
+  replicas: 1
+  serviceName: database-admin
+  template:
+    spec:
+      serviceAccountName: database-admin
+      terminationGracePeriodSeconds: 180
+      containers:
+        - name: database-admin
+          image: quay.io/aysa-sa/pma@sha256:7d201282c7b6d37b37e198816222ddb93e921f3feabd4da14c81a5fc51f746f8
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: PMA_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: host
+            - name: PMA_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: port
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: root-password
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: database
+                  key: tz
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2048Mi
+          readinessProbe:
+            httpGet:
+              path: "/index.php"
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: "/index.php"
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1

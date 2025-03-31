@@ -1,0 +1,17 @@
+# -----------------------------------------------------------------------------
+# Author: Alejandro M. BERNARDIS
+# Email: alejandro.bernardis at gmail.com
+# -----------------------------------------------------------------------------
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: inventory
+spec:
+  tags:
+    - name: latest
+      from:
+        kind: DockerImage
+        name: inventory
+  lookupPolicy:
+    local: true

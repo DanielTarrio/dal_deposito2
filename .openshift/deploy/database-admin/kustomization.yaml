@@ -1,0 +1,22 @@
+---
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - ./route.yaml
+  - ./service-account.yaml
+  - ./service.yaml
+  - ./stateful-set.yaml
+
+labels:
+  - pairs:
+      app.openshift.io/runtime: php
+      asa.airflow.component: database-admin
+    includeSelectors: true
+
+commonAnnotations:
+  asa.airflow.component: database-admin
+  app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"StatefulSet","name":"database"}]'
+
+generatorOptions:
+  disableNameSuffixHash: true
