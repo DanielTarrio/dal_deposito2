@@ -99,7 +99,7 @@ class Solicitud_model extends CI_Model {
 
 		$this->db->trans_begin();
 
-		$Sql="update ".BBDD_ODBC_SQLSRV."pedido set nro=".$nro.", fecha='".$fecha."', id_zona=".$id_zona.",id_personal=".$id_personal.", retira=".$legajo.", centro_costo=".$centro_costo.", id_deposito=".$id_deposito.",  odt='".$ot."', destino='".$obs."', sector='".$sector."', mod_usuario='".$usr."', ult_mod=getdate() where id_pedido=".$id_pedido.";";
+		$Sql="update ".BBDD_ODBC_SQLSRV."pedido set nro=".$nro.", fecha='".$fecha."', id_zona=".$id_zona.",id_personal=".$id_personal.", retira=".$legajo.", centro_costo=".$centro_costo.", id_deposito=".$id_deposito.",  odt='".$ot."', destino='".$obs."', sector='".$sector."', mod_usuario='".$usr."', ult_mod=Now() where id_pedido=".$id_pedido.";";
 
 		$query = $this->db->query($Sql);
 
@@ -124,7 +124,7 @@ class Solicitud_model extends CI_Model {
 				
 
 			//}else{
-				$Sql="insert into ".BBDD_ODBC_SQLSRV."detalle_pedido (id_pedido, nro, id_deposito, centro_costo, id_material, solicitado, cantidad, stock, costo_ult, costo_pp, mod_usuario, ult_mod) values ('".$id_pedido."','".$nro."','".$id_deposito."','". $centro_costo."', '".$id_material."', ".$solicitado.",".$cantidad.",".$stock.",".$costo_ult.",".$costo_pp.",'".$usr."', getdate());";
+				$Sql="insert into ".BBDD_ODBC_SQLSRV."detalle_pedido (id_pedido, nro, id_deposito, centro_costo, id_material, solicitado, cantidad, stock, costo_ult, costo_pp, mod_usuario, ult_mod) values ('".$id_pedido."','".$nro."','".$id_deposito."','". $centro_costo."', '".$id_material."', ".$solicitado.",".$cantidad.",".$stock.",".$costo_ult.",".$costo_pp.",'".$usr."', Now());";
 				$query = $this->db->query($Sql);
 
 				$Sql="update ".BBDD_ODBC_SQLSRV."stock set pedido=pedido+".$cantidad." where id_stock=".$id_stock.";";
@@ -212,7 +212,7 @@ class Solicitud_model extends CI_Model {
 
 		$query = $this->db->query($Sql);
 /*----------------------------------------------------------------------------------*/
-		$Sql="insert into ".BBDD_ODBC_SQLSRV."pedido (nro, fecha, id_zona,id_personal, retira, centro_costo, id_deposito,  odt, destino, sector, web, id_sector, mod_usuario, ult_mod) values (".$nro.", '".$fecha."',".$id_zona." ,".$id_personal." ,'".$legajo."', '".$centro_costo."', ".$id_deposito.", '".$ot."', '".$obs."', '".$sector."', ".$web.", ".$id_usr_sector.", '".$usr."', getdate());";
+		$Sql="insert into ".BBDD_ODBC_SQLSRV."pedido (nro, fecha, id_zona,id_personal, retira, centro_costo, id_deposito,  odt, destino, sector, web, id_sector, mod_usuario, ult_mod) values (".$nro.", '".$fecha."',".$id_zona." ,".$id_personal." ,'".$legajo."', '".$centro_costo."', ".$id_deposito.", '".$ot."', '".$obs."', '".$sector."', ".$web.", ".$id_usr_sector.", '".$usr."', Now());";
 
 		$query = $this->db->query($Sql);
 
@@ -229,7 +229,7 @@ class Solicitud_model extends CI_Model {
 			$solicitado=$value['solicitado'];
 			
 
-			$Sql="insert into ".BBDD_ODBC_SQLSRV."detalle_pedido (id_pedido, nro, id_deposito, centro_costo, id_material, solicitado, cantidad, stock, costo_ult, costo_pp, mod_usuario, ult_mod) values ('".$id_pedido."','".$nro."','".$id_deposito."','". $centro_costo."', '".$id_material."', ".$solicitado.",".$cantidad.",".$stock.",".$costo_ult.",".$costo_pp.",'".$usr."', getdate());";
+			$Sql="insert into ".BBDD_ODBC_SQLSRV."detalle_pedido (id_pedido, nro, id_deposito, centro_costo, id_material, solicitado, cantidad, stock, costo_ult, costo_pp, mod_usuario, ult_mod) values ('".$id_pedido."','".$nro."','".$id_deposito."','". $centro_costo."', '".$id_material."', ".$solicitado.",".$cantidad.",".$stock.",".$costo_ult.",".$costo_pp.",'".$usr."', Now());";
 			$query = $this->db->query($Sql);
 
 			$Sql="update ".BBDD_ODBC_SQLSRV."stock set pedido=pedido+".$cantidad." where id_stock=".$id_stock.";";
@@ -284,7 +284,7 @@ class Solicitud_model extends CI_Model {
 
 		//$this->db->trans_begin();
 
-		$Sql="update ".BBDD_ODBC_SQLSRV."detalle_pedido set cantidad=0, completo=1, mod_usuario='".$usr."', ult_mod=getdate() where nro=".$nro.";";
+		$Sql="update ".BBDD_ODBC_SQLSRV."detalle_pedido set cantidad=0, completo=1, mod_usuario='".$usr."', ult_mod=Now() where nro=".$nro.";";
 		$query = $this->db->query($Sql);
 
 		$filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas');
@@ -531,7 +531,7 @@ class Solicitud_model extends CI_Model {
 
 	function lista_solicitudes($deposito){
 
-		$Sql="select p.id_deposito, d.deposito, p.nro, p.odt, p.destino,p.fecha, p.centro_costo, c.denominacion, p.sector, p.retira, x.apellido_nombre,z.Zona, z.Direccion, z.Localidad, sum(y.despachado) as despachado,sum(y.cantidad) as cantidad from ".BBDD_ODBC_SQLSRV."pedido p join ".BBDD_ODBC_SQLSRV."deposito d on p.id_deposito=d.id_deposito join ".BBDD_ODBC_SQLSRV."detalle_pedido y on p.id_pedido=y.id_pedido join ".BBDD_ODBC_SQLSRV."personal x on p.id_personal=x.id_personal join ".BBDD_ODBC_SQLSRV."centro_costo c on p.centro_costo=c.centro_costo join ".BBDD_ODBC_SQLSRV."zonas z on p.id_zona=z.id_zona where p.id_deposito in(".$deposito.") and y.completo=0 and p.fecha>=dateadd(Year,-1,getdate()) group by  p.id_deposito, d.deposito, p.nro, p.odt, p.destino, p.fecha, p.centro_costo, c.denominacion, p.sector, p.retira, x.apellido_nombre,z.Zona, z.Direccion, z.Localidad  order by nro desc;";
+		$Sql="select p.id_deposito, d.deposito, p.nro, p.odt, p.destino,p.fecha, p.centro_costo, c.denominacion, p.sector, p.retira, x.apellido_nombre,z.Zona, z.Direccion, z.Localidad, sum(y.despachado) as despachado,sum(y.cantidad) as cantidad from ".BBDD_ODBC_SQLSRV."pedido p join ".BBDD_ODBC_SQLSRV."deposito d on p.id_deposito=d.id_deposito join ".BBDD_ODBC_SQLSRV."detalle_pedido y on p.id_pedido=y.id_pedido join ".BBDD_ODBC_SQLSRV."personal x on p.id_personal=x.id_personal join ".BBDD_ODBC_SQLSRV."centro_costo c on p.centro_costo=c.centro_costo join ".BBDD_ODBC_SQLSRV."zonas z on p.id_zona=z.id_zona where p.id_deposito in(".$deposito.") and y.completo=0 and p.fecha >= DATE_SUB(NOW(), INTERVAL 1 YEAR) group by  p.id_deposito, d.deposito, p.nro, p.odt, p.destino, p.fecha, p.centro_costo, c.denominacion, p.sector, p.retira, x.apellido_nombre,z.Zona, z.Direccion, z.Localidad  order by nro desc;";
 		
 		$query = $this->db->query($Sql);
 
@@ -564,7 +564,7 @@ class Solicitud_model extends CI_Model {
 	function lista_solicitudes_web($deposito,$sectores){
 
 
-		$Sql="select p.id_deposito, d.deposito, p.nro, p.odt, p.destino,p.fecha, p.centro_costo, c.denominacion, p.sector, p.retira, x.apellido_nombre,z.Zona, z.Direccion, z.Localidad, sum(y.despachado) as despachado,sum(y.cantidad) as cantidad , p.mod_usuario, w.id_sector from ".BBDD_ODBC_SQLSRV."pedido p join ".BBDD_ODBC_SQLSRV."deposito d on p.id_deposito=d.id_deposito  join ".BBDD_ODBC_SQLSRV."usuarios w on w.usuario=p.mod_usuario join ".BBDD_ODBC_SQLSRV."detalle_pedido y on p.id_pedido=y.id_pedido join ".BBDD_ODBC_SQLSRV."personal x on p.id_personal=x.id_personal join ".BBDD_ODBC_SQLSRV."centro_costo c on p.centro_costo=c.centro_costo join ".BBDD_ODBC_SQLSRV."zonas z on p.id_zona=z.id_zona where p.id_deposito in(".$deposito.") and p.web=1 and p.editado=0 and w.id_sector in(".$sectores.") and y.completo=0 and p.fecha>=dateadd(Year,-1,getdate()) group by  p.id_deposito, d.deposito, p.nro, p.odt, p.destino, p.fecha, p.centro_costo, c.denominacion, p.sector, p.retira, x.apellido_nombre,z.Zona, z.Direccion, z.Localidad, p.mod_usuario, w.id_sector  order by nro desc;";
+		$Sql="select p.id_deposito, d.deposito, p.nro, p.odt, p.destino,p.fecha, p.centro_costo, c.denominacion, p.sector, p.retira, x.apellido_nombre,z.Zona, z.Direccion, z.Localidad, sum(y.despachado) as despachado,sum(y.cantidad) as cantidad , p.mod_usuario, w.id_sector from ".BBDD_ODBC_SQLSRV."pedido p join ".BBDD_ODBC_SQLSRV."deposito d on p.id_deposito=d.id_deposito  join ".BBDD_ODBC_SQLSRV."usuarios w on w.usuario=p.mod_usuario join ".BBDD_ODBC_SQLSRV."detalle_pedido y on p.id_pedido=y.id_pedido join ".BBDD_ODBC_SQLSRV."personal x on p.id_personal=x.id_personal join ".BBDD_ODBC_SQLSRV."centro_costo c on p.centro_costo=c.centro_costo join ".BBDD_ODBC_SQLSRV."zonas z on p.id_zona=z.id_zona where p.id_deposito in(".$deposito.") and p.web=1 and p.editado=0 and w.id_sector in(".$sectores.") and y.completo=0 and p.fecha>=dateadd(Year,-1,Now()) group by  p.id_deposito, d.deposito, p.nro, p.odt, p.destino, p.fecha, p.centro_costo, c.denominacion, p.sector, p.retira, x.apellido_nombre,z.Zona, z.Direccion, z.Localidad, p.mod_usuario, w.id_sector  order by nro desc;";
 		
 		$query = $this->db->query($Sql);
 

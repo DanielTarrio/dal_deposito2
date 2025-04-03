@@ -223,7 +223,7 @@ $.extend($.jgrid,{
 		var 
 			G = timestamp.getHours(),
 			i = timestamp.getMinutes(),
-			j = timestamp.getDate(),
+			j = timestamp.Now(),
 			n = timestamp.getMonth() + 1,
 			o = timestamp.getTimezoneOffset(),
 			s = timestamp.getSeconds(),

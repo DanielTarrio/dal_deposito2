@@ -44,7 +44,7 @@ class Deposito_model extends CI_Model {
 
     $this->db->trans_start();
 
-    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."deposito (deposito, mod_usuario, ult_mod) VALUES ('".$data['deposito']."', '".$data['usr']."', getdate());";
+    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."deposito (deposito, mod_usuario, ult_mod) VALUES ('".$data['deposito']."', '".$data['usr']."', Now());";
     $query = $this->db->query($Sql);
 
     $id_deposito=$this->db->query('select @@IDENTITY as insert_id;')->row('insert_id');
@@ -56,15 +56,15 @@ class Deposito_model extends CI_Model {
     $query = $this->db->query($Sql);
     //-----------------Autorizacion Deposito--------------------
 
-    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."deposito_autorizado (id_deposito, usuario, mod_usuario, ult_mod) VALUES (".$id_deposito.",'admin','".$data['usr']."',getdate());";
+    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."deposito_autorizado (id_deposito, usuario, mod_usuario, ult_mod) VALUES (".$id_deposito.",'admin','".$data['usr']."',Now());";
     $query = $this->db->query($Sql);
     if($data['usr']!='admin'){
-      $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."deposito_autorizado (id_deposito, usuario, mod_usuario, ult_mod) VALUES (".$id_deposito.",'".$data['usr']."','".$data['usr']."',getdate());";
+      $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."deposito_autorizado (id_deposito, usuario, mod_usuario, ult_mod) VALUES (".$id_deposito.",'".$data['usr']."','".$data['usr']."',Now());";
       $query = $this->db->query($Sql);
     }
     //----------------Generacion de ubicacion deposito-------------
 
-    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."ubicaciones (ubicacion, id_deposito,ruta, lft, rgt, nivel, mod_usuario, ult_mod) VALUES ('Deposito',".$id_deposito.",'".$data['deposito']."',1,2,1,'".$data['usr']."',getdate());";
+    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."ubicaciones (ubicacion, id_deposito,ruta, lft, rgt, nivel, mod_usuario, ult_mod) VALUES ('Deposito',".$id_deposito.",'".$data['deposito']."',1,2,1,'".$data['usr']."',Now());";
     $query = $this->db->query($Sql);
 
     $filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas');
@@ -86,7 +86,7 @@ class Deposito_model extends CI_Model {
 
   function edit_deposito($data){
 
-    $Sql="UPDATE ".BBDD_ODBC_SQLSRV."deposito SET deposito='".$data['deposito']."', mod_usuario='".$data['usr']."', ult_mod=getdate() where id_deposito=".$data['id_deposito'].";";
+    $Sql="UPDATE ".BBDD_ODBC_SQLSRV."deposito SET deposito='".$data['deposito']."', mod_usuario='".$data['usr']."', ult_mod=Now() where id_deposito=".$data['id_deposito'].";";
     $query = $this->db->query($Sql);
 
     $filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas');
@@ -120,7 +120,7 @@ class Deposito_model extends CI_Model {
     $usuario=$data['usuario'];
     $usr=$data['usr'];
 
-    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."deposito_autorizado (id_deposito,usuario,mod_usuario     ,ult_mod) VALUES (".$id_deposito.",'".$usuario."','".$usr."',getdate());";
+    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."deposito_autorizado (id_deposito,usuario,mod_usuario     ,ult_mod) VALUES (".$id_deposito.",'".$usuario."','".$usr."',Now());";
 
     $query = $this->db->query($Sql);
 

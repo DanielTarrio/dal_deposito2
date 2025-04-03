@@ -5385,7 +5385,7 @@ jQuery.Event = function( src, props ) {
 	}
 
 	// Create a timestamp if incoming event doesn't have one
-	this.timeStamp = src && src.timeStamp || jQuery.now();
+	this.timeStamp = src && src.timeStamp || jQuery.;
 
 	// Mark it as fixed
 	this[ jQuery.expando ] = true;
@@ -7587,7 +7587,7 @@ var
 	// Document location
 	ajaxLocParts,
 	ajaxLocation,
-	ajax_nonce = jQuery.now(),
+	ajax_nonce = jQuery.,
 
 	ajax_rquery = /\?/,
 	rhash = /#.*$/,
@@ -8868,11 +8868,11 @@ var fxNow, timerId,
 	};
 
 // Animations created synchronously will run synchronously
-function createFxNow() {
+function createFx {
 	setTimeout(function() {
 		fxNow = undefined;
 	});
-	return ( fxNow = jQuery.now() );
+	return ( fxNow = jQuery. );
 }
 
 function createTween( value, prop, animation ) {
@@ -8902,7 +8902,7 @@ function Animation( elem, properties, options ) {
 			if ( stopped ) {
 				return false;
 			}
-			var currentTime = fxNow || createFxNow(),
+			var currentTime = fxNow || createFx,
 				remaining = Math.max( 0, animation.startTime + animation.duration - currentTime ),
 				// archaic crash bug won't allow us to use 1 - ( 0.5 || 0 ) (#12497)
 				temp = remaining / animation.duration || 0,
@@ -8929,7 +8929,7 @@ function Animation( elem, properties, options ) {
 			opts: jQuery.extend( true, { specialEasing: {} }, options ),
 			originalProperties: properties,
 			originalOptions: options,
-			startTime: fxNow || createFxNow(),
+			startTime: fxNow || createFx,
 			duration: options.duration,
 			tweens: [],
 			createTween: function( prop, end ) {
@@ -9491,7 +9491,7 @@ jQuery.fx.tick = function() {
 		timers = jQuery.timers,
 		i = 0;
 
-	fxNow = jQuery.now();
+	fxNow = jQuery.;
 
 	for ( ; i < timers.length; i++ ) {
 		timer = timers[ i ];

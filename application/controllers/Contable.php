@@ -144,10 +144,10 @@ class Contable extends CI_Controller {
 
 
    	function get_centro_costo(){
-		$this->load->model('contable_model');
+		$this->load->model('Contable_model');
 		if (isset($_GET['term'])){
 			$q = strtolower($_GET['term']);
-			$data=$this->contable_model->get_centro_costo($q);
+			$data=$this->Contable_model->get_centro_costo($q);
 			$this->output
 			->set_status_header(200)
 			->set_content_type('application/json', 'utf-8')

@@ -90,7 +90,7 @@ var disponible=0;
 //--------------------------------
     $("#Buscar").click(function(){
       $("#dlgBuscar").hide();
-      $("#dlgBuscar").load("<?php echo base_url();?>index.php/salidas/lista_salidas");
+      $("#dlgBuscar").load("<?php echo base_url();?>index.php/Salidas/lista_salidas");
       $("#dlgBuscar").dialog({
           modal: true,
           height: 500,
@@ -896,7 +896,7 @@ var disponible=0;
   function vale(id_salida){
 
     //window.open('<?php echo base_url()?>index.php/salidas/vale?nro='+nro+'&id_deposito='+deposito,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');
-    window.open('<?php echo base_url()?>index.php/salidas/vale?id_salida='+id_salida,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');
+    window.open('<?php echo base_url()?>index.php/Salidas/vale?id_salida='+id_salida,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');
   }
 
   function help_window(){
@@ -957,7 +957,7 @@ var disponible=0;
       console.log(data);
       console.log('---------------------');
 
-      $.post('salidas/salida_stock',
+      $.post('Salidas/salida_stock',
         data,
         function(returnedData){
           console.log(returnedData);
@@ -1234,7 +1234,7 @@ function ValidarForm(){
 
   function imp_etiquetas(id_salida){
     //window.open('solicitudes/pedido_etiquetas?nros='+result+'&btos='+btos+'&rdo='+rdo,'Imprimir','');
-    window.open('<?php echo base_url()?>index.php/salidas/pedido_etiquetas?id_salida='+id_salida,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');
+    window.open('<?php echo base_url()?>index.php/Salidas/pedido_etiquetas?id_salida='+id_salida,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');
   }
 
 

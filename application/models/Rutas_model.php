@@ -166,7 +166,7 @@ class Rutas_model extends CI_Model {
 
 		$this->db->trans_start();
 		
-		$Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."rutas (id_deposito,ruta,ult_mod,mod_usuario) VALUES (".$id_deposito.",'".$ruta."',getdate(),'".$usr."')";
+		$Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."rutas (id_deposito,ruta,ult_mod,mod_usuario) VALUES (".$id_deposito.",'".$ruta."',Now(),'".$usr."')";
 
 		$query = $this->db->query($Sql);
 
@@ -239,7 +239,7 @@ class Rutas_model extends CI_Model {
 
 		$Sql= "INSERT INTO ".BBDD_ODBC_SQLSRV."entregas
            (id_ruta,fecha,chofer,patente,ult_mod,mod_usuario) VALUES
-           ('".$id_ruta."',getdate(),'".$chofer."','".$patente."',getdate(),'".$usr."')";
+           ('".$id_ruta."',Now(),'".$chofer."','".$patente."',Now(),'".$usr."')";
 
 
         $query = $this->db->query($Sql);
@@ -281,7 +281,7 @@ class Rutas_model extends CI_Model {
 			$i++;
 
 			$Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."detalle_entrega (id_entrega,id_salida,id_recorrido,id_dependencia,agregado,bultos,destino,sector,orden,observaciones,ult_mod,mod_usuario) VALUES
-           (".$id_entrega." ,".$id_salida.",".$id_ruta.",".$id_dependencia.",'".$agr."',".$bultos.",'".$destino."','".$sector."',".$i.",'".$obs."',getdate(),'".$usr."')";
+           (".$id_entrega." ,".$id_salida.",".$id_ruta.",".$id_dependencia.",'".$agr."',".$bultos.",'".$destino."','".$sector."',".$i.",'".$obs."',Now(),'".$usr."')";
 			$query = $this->db->query($Sql);
 
 			$Sql="update ".BBDD_ODBC_SQLSRV."salida set prog=1 where id_salida in(select id_salida from ".BBDD_ODBC_SQLSRV."detalle_entrega where id_entrega=".$id_entrega.");";

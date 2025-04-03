@@ -166,7 +166,7 @@ class Menu_model extends CI_Model {
       $query=$this->db->query($Sql,array($lft));
 
 
-      $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."aplicaciones(aplicacion,menu, orden_menu, imagen, lft, rgt, nivel, path, ult_mod, mod_usuario) VALUES('".$app."', ".$menu.", ".$orden.",'".$imagen."', ".$lft." + 1, ".$lft." + 2, ".$nivel." + 1,'".$path."', getdate(),'".$usr."');";
+      $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."aplicaciones(aplicacion,menu, orden_menu, imagen, lft, rgt, nivel, path, ult_mod, mod_usuario) VALUES('".$app."', ".$menu.", ".$orden.",'".$imagen."', ".$lft." + 1, ".$lft." + 2, ".$nivel." + 1,'".$path."', Now(),'".$usr."');";
 
       $query=$this->db->query($Sql);
 

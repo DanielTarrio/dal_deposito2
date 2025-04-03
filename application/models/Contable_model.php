@@ -127,7 +127,7 @@ class Contable_model extends CI_Model {
 
 
 		//$campos=$campos.",modificacion, usuario_mod";
-		//$valores=$valores."',getdate(),'admin'";
+		//$valores=$valores."',Now(),'admin'";
 
 		$where="INSERT INTO ".BBDD_ODBC_SQLSRV."centro_costo (".$campos.") VALUES (".$valores.");";
 
@@ -315,7 +315,7 @@ class Contable_model extends CI_Model {
 
 
 		//$campos=$campos.",modificacion, usuario_mod";
-		//$valores=$valores."',getdate(),'admin'";
+		//$valores=$valores."',Now(),'admin'";
 
 		$where="INSERT INTO ".BBDD_ODBC_SQLSRV."personal (".$campos.") VALUES (".$valores.");";
 
@@ -366,7 +366,7 @@ class Contable_model extends CI_Model {
 	    $fax=$data['fax'];
 	    $email=$data['email'];
 
-	    $sql="insert into ".BBDD_ODBC_SQLSRV."proveedores (cuit, proveedor, direccion, telefono, fax, email, mod_usuario, ult_mod) values ('".$cuit."', '".$proveedor."', '".$direccion."', '".$telefono."', '".$fax."', '".$email."', '".$usr."', getdate());";
+	    $sql="insert into ".BBDD_ODBC_SQLSRV."proveedores (cuit, proveedor, direccion, telefono, fax, email, mod_usuario, ult_mod) values ('".$cuit."', '".$proveedor."', '".$direccion."', '".$telefono."', '".$fax."', '".$email."', '".$usr."', Now());";
 	    $query = $this->db->query($sql);
 	    $id_proveedor=$this->db->query('select @@IDENTITY as insert_id;')->row('insert_id');
 
@@ -458,7 +458,7 @@ class Contable_model extends CI_Model {
 
 
 		//$campos=$campos.",modificacion, usuario_mod";
-		//$valores=$valores."',getdate(),'admin'";
+		//$valores=$valores."',Now(),'admin'";
 
 		$where="INSERT INTO ".BBDD_ODBC_SQLSRV."unidades (".$campos.") VALUES (".$valores.");";
 

@@ -215,7 +215,7 @@ class Stock_model extends CI_Model {
 
 		$query = $this->db->query($Sql);
 
-		$Sql="insert into ".BBDD_ODBC_SQLSRV."entrada (id_tipo_mov, nro, fecha, remito, centro_costo, id_proveedor, id_tipo_compra, id_compra, id_deposito, mod_usuario, ult_mod) values ('".$id_tipo_mov."','".$nro."','".$fecha."','".$remito."','".$centro_costo."','".$id_proveedor."','".$id_tipo_compra."','".$id_compra."','".$id_deposito."','".$usr."',getdate());";
+		$Sql="insert into ".BBDD_ODBC_SQLSRV."entrada (id_tipo_mov, nro, fecha, remito, centro_costo, id_proveedor, id_tipo_compra, id_compra, id_deposito, mod_usuario, ult_mod) values ('".$id_tipo_mov."','".$nro."','".$fecha."','".$remito."','".$centro_costo."','".$id_proveedor."','".$id_tipo_compra."','".$id_compra."','".$id_deposito."','".$usr."',Now());";
 
 		$query = $this->db->query($Sql);
 
@@ -242,7 +242,7 @@ class Stock_model extends CI_Model {
 			$cantidad=$value['cantidad'];
 			$costo_ult=$value['costo_ult'];
 
-			$Sql="insert into ".BBDD_ODBC_SQLSRV."detalle_entrada (id_entrada, nro, id_deposito, centro_costo, id_material, cantidad, costo_ult, mod_usuario, ult_mod) values ('".$id_entrada."','".$nro."','".$id_deposito."','". $centro_costo."','".$id_material."','".$cantidad."','".$costo_ult."','".$usr."', getdate());";
+			$Sql="insert into ".BBDD_ODBC_SQLSRV."detalle_entrada (id_entrada, nro, id_deposito, centro_costo, id_material, cantidad, costo_ult, mod_usuario, ult_mod) values ('".$id_entrada."','".$nro."','".$id_deposito."','". $centro_costo."','".$id_material."','".$cantidad."','".$costo_ult."','".$usr."', Now());";
 			$query = $this->db->query($Sql);
 
 			//=======COSTO PPP==================
@@ -262,7 +262,7 @@ class Stock_model extends CI_Model {
 
 			$costo_pp=(($sCant*$costo_pp)+($cantidad*$costo_ult))/($sCant+$cantidad);
 
-			$Sql="update ".BBDD_ODBC_SQLSRV."material set costo_pp=".$costo_pp.", mod_usuario='".$usr."', ult_mod=getdate() where id_material=".$id_material.";";
+			$Sql="update ".BBDD_ODBC_SQLSRV."material set costo_pp=".$costo_pp.", mod_usuario='".$usr."', ult_mod=Now() where id_material=".$id_material.";";
 			$query = $this->db->query($Sql);
 
 			//==================================
@@ -272,15 +272,15 @@ class Stock_model extends CI_Model {
 
 
 			if($query->num_rows() > 0){
-				$Sql="update ".BBDD_ODBC_SQLSRV."stock set cantidad=cantidad+".$cantidad.", mod_usuario='".$usr."', ult_mod=getdate() where id_deposito=".$id_deposito." and id_material=".$id_material.";";
+				$Sql="update ".BBDD_ODBC_SQLSRV."stock set cantidad=cantidad+".$cantidad.", mod_usuario='".$usr."', ult_mod=Now() where id_deposito=".$id_deposito." and id_material=".$id_material.";";
 				$query = $this->db->query($Sql);
 			}else{
-				$Sql="insert into ".BBDD_ODBC_SQLSRV."stock(id_material, id_deposito, cantidad, minimo, reposicion, ubicacion, mod_usuario, ult_mod) values(".$id_material.",".$id_deposito.",".$cantidad.",0,0,NULL,'".$usr."', getdate());";
+				$Sql="insert into ".BBDD_ODBC_SQLSRV."stock(id_material, id_deposito, cantidad, minimo, reposicion, ubicacion, mod_usuario, ult_mod) values(".$id_material.",".$id_deposito.",".$cantidad.",0,0,NULL,'".$usr."', Now());";
 				$query = $this->db->query($Sql);
 			}
 		}
 
-		$Sql="insert into ".BBDD_ODBC_SQLSRV."movimientos(id_entrada, id_detalle_entrada, nro, id_deposito, centro_costo, id_material, cantidad, mod_usuario, ult_mod, id_tipo_mov) select e.id_entrada, d.id_detalle_entrada, e.nro, e.id_deposito, e.centro_costo, d.id_material, d.cantidad, e.mod_usuario, getdate(), e.id_tipo_mov from ".BBDD_ODBC_SQLSRV."entrada e, ".BBDD_ODBC_SQLSRV."detalle_entrada d where e.id_entrada=d.id_entrada and e.id_deposito=".$id_deposito." and e.id_entrada=".$id_entrada.";";
+		$Sql="insert into ".BBDD_ODBC_SQLSRV."movimientos(id_entrada, id_detalle_entrada, nro, id_deposito, centro_costo, id_material, cantidad, mod_usuario, ult_mod, id_tipo_mov) select e.id_entrada, d.id_detalle_entrada, e.nro, e.id_deposito, e.centro_costo, d.id_material, d.cantidad, e.mod_usuario, Now(), e.id_tipo_mov from ".BBDD_ODBC_SQLSRV."entrada e, ".BBDD_ODBC_SQLSRV."detalle_entrada d where e.id_entrada=d.id_entrada and e.id_deposito=".$id_deposito." and e.id_entrada=".$id_entrada.";";
 
 
 
@@ -350,7 +350,7 @@ class Stock_model extends CI_Model {
 
 		$query = $this->db->query($Sql);
 
-		$Sql="insert into ".BBDD_ODBC_SQLSRV."salida (nro,id_pedido, nro_pedido, fecha, retira, id_personal, centro_costo, id_deposito, id_tipo_mov, odt, sector, id_zona, destino, bultos, recorrido, mod_usuario, ult_mod) values (".$nro.", '".$id_pedido."', '".$nro_pedido."', '".$fecha."', '".$legajo."', '".$id_personal."', '".$centro_costo."', ".$id_deposito.", ".$id_tipo_mov.", '".$ot."', '".$sector."', ".$id_zona.", '".$obs."',".$bultos.",".$recorrido.", '".$usr."', getdate());";
+		$Sql="insert into ".BBDD_ODBC_SQLSRV."salida (nro,id_pedido, nro_pedido, fecha, retira, id_personal, centro_costo, id_deposito, id_tipo_mov, odt, sector, id_zona, destino, bultos, recorrido, mod_usuario, ult_mod) values (".$nro.", '".$id_pedido."', '".$nro_pedido."', '".$fecha."', '".$legajo."', '".$id_personal."', '".$centro_costo."', ".$id_deposito.", ".$id_tipo_mov.", '".$ot."', '".$sector."', ".$id_zona.", '".$obs."',".$bultos.",".$recorrido.", '".$usr."', Now());";
 
 		$query = $this->db->query($Sql);
 
@@ -394,7 +394,7 @@ class Stock_model extends CI_Model {
 			
 			//========================================================================
 
-			$Sql="insert into ".BBDD_ODBC_SQLSRV."detalle_salida (id_salida, id_pedido, id_detalle_pedido, nro, id_deposito, centro_costo, id_material, cantidad,costo_ult,costo_pp, mod_usuario, ult_mod) values ('".$id_salida."','".$id_pedido."','".$id_detalle_pedido."','".$nro."','".$id_deposito."','". $centro_costo."','".$id_material."','".$cantidad."','".$costo_ult."','".$costo_pp."','".$usr."', getdate());"; 
+			$Sql="insert into ".BBDD_ODBC_SQLSRV."detalle_salida (id_salida, id_pedido, id_detalle_pedido, nro, id_deposito, centro_costo, id_material, cantidad,costo_ult,costo_pp, mod_usuario, ult_mod) values ('".$id_salida."','".$id_pedido."','".$id_detalle_pedido."','".$nro."','".$id_deposito."','". $centro_costo."','".$id_material."','".$cantidad."','".$costo_ult."','".$costo_pp."','".$usr."', Now());"; 
 
 			$query = $this->db->query($Sql);
 
@@ -423,11 +423,11 @@ class Stock_model extends CI_Model {
 							if($cantidad<=$cant_aut){
 								$cant_aut=$cantidad;
 							}
-							$Sql="update ".BBDD_ODBC_SQLSRV."stock set cantidad=cantidad-(".$cantidad."),pedido=pedido-(".$cant_aut."), mod_usuario='".$usr."', ult_mod=getdate() where id_deposito=".$id_deposito." and id_material=".$id_material.";";
+							$Sql="update ".BBDD_ODBC_SQLSRV."stock set cantidad=cantidad-(".$cantidad."),pedido=pedido-(".$cant_aut."), mod_usuario='".$usr."', ult_mod=Now() where id_deposito=".$id_deposito." and id_material=".$id_material.";";
 							$query = $this->db->query($Sql);
 
 						}else{
-							$Sql="update ".BBDD_ODBC_SQLSRV."stock set cantidad=cantidad-(".$cantidad."), mod_usuario='".$usr."', ult_mod=getdate() where id_deposito=".$id_deposito." and id_material=".$id_material.";";
+							$Sql="update ".BBDD_ODBC_SQLSRV."stock set cantidad=cantidad-(".$cantidad."), mod_usuario='".$usr."', ult_mod=Now() where id_deposito=".$id_deposito." and id_material=".$id_material.";";
 							$query = $this->db->query($Sql);
 						}
 
@@ -470,7 +470,7 @@ class Stock_model extends CI_Model {
 			$this->db->trans_rollback();
 		}else{
 
-			$Sql="insert into ".BBDD_ODBC_SQLSRV."movimientos(id_salida, id_detalle_salida, nro, id_deposito, centro_costo, id_material, cantidad, mod_usuario, ult_mod, id_tipo_mov) select e.id_salida, d.id_detalle_salida, e.nro, e.id_deposito, e.centro_costo, d.id_material, d.cantidad, e.mod_usuario, getdate(), e.id_tipo_mov from ".BBDD_ODBC_SQLSRV."salida e, ".BBDD_ODBC_SQLSRV."detalle_salida d where e.id_salida=d.id_salida and e.id_deposito=".$id_deposito." and e.id_salida=".$id_salida.";";
+			$Sql="insert into ".BBDD_ODBC_SQLSRV."movimientos(id_salida, id_detalle_salida, nro, id_deposito, centro_costo, id_material, cantidad, mod_usuario, ult_mod, id_tipo_mov) select e.id_salida, d.id_detalle_salida, e.nro, e.id_deposito, e.centro_costo, d.id_material, d.cantidad, e.mod_usuario, Now(), e.id_tipo_mov from ".BBDD_ODBC_SQLSRV."salida e, ".BBDD_ODBC_SQLSRV."detalle_salida d where e.id_salida=d.id_salida and e.id_deposito=".$id_deposito." and e.id_salida=".$id_salida.";";
 
 
 			$query = $this->db->query($Sql);
@@ -942,9 +942,9 @@ class Stock_model extends CI_Model {
 
 	function lista_salidas($deposito){
 		
-		//$Sql="select s.id_deposito, d.deposito, s.nro, s.fecha, s.retira, s.nro_pedido, p.apellido_nombre from ".BBDD_ODBC_SQLSRV."salida s inner join ".BBDD_ODBC_SQLSRV."deposito d  on s.id_deposito=d.id_deposito inner join ".BBDD_ODBC_SQLSRV."personal p on s.id_personal=p.id_personal  where s.id_deposito in(".$deposito.") and s.fecha>=dateadd(Year,-1,getdate()) order by nro desc;";
+		//$Sql="select s.id_deposito, d.deposito, s.nro, s.fecha, s.retira, s.nro_pedido, p.apellido_nombre from ".BBDD_ODBC_SQLSRV."salida s inner join ".BBDD_ODBC_SQLSRV."deposito d  on s.id_deposito=d.id_deposito inner join ".BBDD_ODBC_SQLSRV."personal p on s.id_personal=p.id_personal  where s.id_deposito in(".$deposito.") and s.fecha>=dateadd(Year,-1,Now()) order by nro desc;";
 
-		$Sql="select s.id_salida, s.id_deposito, d.deposito, s.nro, s.fecha, s.retira, s.nro_pedido, s.sector, s.destino, s.bultos, s.recorrido, p.apellido_nombre, z.Zona,s.odt from ".BBDD_ODBC_SQLSRV."salida s inner join ".BBDD_ODBC_SQLSRV."deposito d on s.id_deposito=d.id_deposito inner join ".BBDD_ODBC_SQLSRV."personal p on s.id_personal=p.id_personal left join ".BBDD_ODBC_SQLSRV."zonas z on s.id_zona=z.id_zona where s.id_deposito in(".$deposito.") and s.fecha>=dateadd(Year,-1,getdate()) order by nro desc;";
+		$Sql="select s.id_salida, s.id_deposito, d.deposito, s.nro, s.fecha, s.retira, s.nro_pedido, s.sector, s.destino, s.bultos, s.recorrido, p.apellido_nombre, z.Zona,s.odt from ".BBDD_ODBC_SQLSRV."salida s inner join ".BBDD_ODBC_SQLSRV."deposito d on s.id_deposito=d.id_deposito inner join ".BBDD_ODBC_SQLSRV."personal p on s.id_personal=p.id_personal left join ".BBDD_ODBC_SQLSRV."zonas z on s.id_zona=z.id_zona where s.id_deposito in(".$deposito.") and s.fecha >= DATE_SUB(NOW(), INTERVAL 1 YEAR) order by nro desc;";
 
 
 		$query = $this->db->query($Sql);
@@ -974,7 +974,7 @@ class Stock_model extends CI_Model {
 
 	function lista_entradas($deposito){
 
-		$Sql="select e.id_deposito, d.deposito, e.nro, e.id_proveedor, p.proveedor, e.remito, e.fecha from ".BBDD_ODBC_SQLSRV."entrada e inner join ".BBDD_ODBC_SQLSRV."deposito d on e.id_deposito=d.id_deposito inner join ".BBDD_ODBC_SQLSRV."proveedores p on e.id_proveedor=p.id_proveedor where  e.id_deposito in(".$deposito.") and e.fecha>=dateadd(Year,-1,getdate()) order by d.deposito, e.nro desc;";
+		$Sql="select e.id_deposito, d.deposito, e.nro, e.id_proveedor, p.proveedor, e.remito, e.fecha from ".BBDD_ODBC_SQLSRV."entrada e inner join ".BBDD_ODBC_SQLSRV."deposito d on e.id_deposito=d.id_deposito inner join ".BBDD_ODBC_SQLSRV."proveedores p on e.id_proveedor=p.id_proveedor where  e.id_deposito in(".$deposito.") and e.fecha>=dateadd(Year,-1,Now()) order by d.deposito, e.nro desc;";
 
 		$query = $this->db->query($Sql);
 
@@ -1003,7 +1003,7 @@ class Stock_model extends CI_Model {
 	    $reposicion=$data['reposicion'];
 	    $ubicacion=$data['ubicacion'];
 	    
-	    $Sql="update ".BBDD_ODBC_SQLSRV."stock set minimo=".$minimo.", reposicion=".$reposicion.", ubicacion='".$ubicacion."', mod_usuario='".$usr."', ult_mod=getdate() where id_stock=".$id_stock.";";
+	    $Sql="update ".BBDD_ODBC_SQLSRV."stock set minimo=".$minimo.", reposicion=".$reposicion.", ubicacion='".$ubicacion."', mod_usuario='".$usr."', ult_mod=Now() where id_stock=".$id_stock.";";
 	    $query = $this->db->query($Sql);
 
 	    //$id_material=$this->db->query('select @@ROWCOUNT as rows_affected;')->row('rows_affected');

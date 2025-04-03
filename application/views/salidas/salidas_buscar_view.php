@@ -153,13 +153,13 @@
                   nro_pedido=$("#jqGridVale").jqGrid('getCell',rowid,'nro_pedido')
                   deposito=$("#jqGridVale").jqGrid('getCell',rowid,'id_deposito');
                   bulto=$("#jqGridVale").jqGrid('getCell',rowid,'bultos');
-                  /*window.open('<?php echo base_url()?>index.php/salidas/vale?nro='+nro+'&id_deposito='+deposito,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');*/
+                  /*window.open('<?php echo base_url()?>index.php/Salidas/vale?nro='+nro+'&id_deposito='+deposito,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');*/
                 },
                 ondblClickRow:function(rowid,iCol,cellcontent,e) {
                     i = $("#jqGridVale").getGridParam("reccount");
                     nro=$("#jqGridVale").jqGrid('getCell',rowid,'nro')
                     id_salida=$("#jqGridVale").jqGrid('getCell',rowid,'id_salida');
-                    window.open('<?php echo base_url()?>index.php/salidas/vale?id_salida='+id_salida,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');
+                    window.open('<?php echo base_url()?>index.php/Salidas/vale?id_salida='+id_salida,'Imprimir','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=535,height=300,left=200,top=300');
                 }
             });
 			// activate the toolbar searching

@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<a href="<?php echo base_url().'index.php/login'; ?>">
+					<a href="<?php echo base_url().'login'; ?>">
 						<p style="font-size: 1.2em;font-style: bold">login</p>
 					</a>
 				</td>

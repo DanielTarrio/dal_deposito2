@@ -107,7 +107,7 @@ if ( ! function_exists('mdate'))
 		}
 		elseif (empty($time))
 		{
-			$time = now();
+			$time = ;
 		}
 
 		$datestr = str_replace(
@@ -136,7 +136,7 @@ if ( ! function_exists('standard_date'))
 	 * @deprecated	3.0.0	Use PHP's native date() instead.
 	 * @link	http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
 	 *
-	 * @example	date(DATE_RFC822, now()); // default
+	 * @example	date(DATE_RFC822, ); // default
 	 * @example	date(DATE_W3C, $time); // a different format and time
 	 *
 	 * @param	string	$fmt = 'DATE_RFC822'	the chosen format
@@ -147,7 +147,7 @@ if ( ! function_exists('standard_date'))
 	{
 		if (empty($time))
 		{
-			$time = now();
+			$time = ;
 		}
 
 		// Procedural style pre-defined constants from the DateTime extension
@@ -360,7 +360,7 @@ if ( ! function_exists('gmt_to_local'))
 	{
 		if ($time === '')
 		{
-			return now();
+			return ;
 		}
 
 		$time += timezones($timezone) * 3600;

@@ -104,7 +104,7 @@ class Ubicacion_model extends CI_Model {
       $query=$this->db->query($Sql,array($lft,$id_deposito));
 
 
-      $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."ubicaciones(ubicacion, id_deposito, lft, rgt, nivel, ruta, ult_mod, mod_usuario) VALUES('".$tmp."', ".$id_deposito.", ".$lft." + 1, ".$lft." + 2, ".$nivel." + 1,'".$ruta."/".$tmp."', getdate(),'".$usr."');";
+      $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."ubicaciones(ubicacion, id_deposito, lft, rgt, nivel, ruta, ult_mod, mod_usuario) VALUES('".$tmp."', ".$id_deposito.", ".$lft." + 1, ".$lft." + 2, ".$nivel." + 1,'".$ruta."/".$tmp."', Now(),'".$usr."');";
 
       $query=$this->db->query($Sql);
 

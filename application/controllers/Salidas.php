@@ -10,12 +10,12 @@ class Salidas extends CI_Controller {
    	public function index(){
    		$login=$this->control->control_login();
 		if($login==TRUE){
-			$this->load->model('deposito_model');
-			$this->load->model('contable_model');
+			$this->load->model('Deposito_model');
+			$this->load->model('Contable_model');
 			$usr=$this->session->userdata('usr');
-	   		$data['deposito']=$this->deposito_model->get_deposito($usr);
-			$data['movimiento']=$this->contable_model->get_tipo_movimiento('S',$usr);
-			$data['compra']=$this->contable_model->get_tipocompra();
+	   		$data['deposito']=$this->Deposito_model->get_deposito($usr);
+			$data['movimiento']=$this->Contable_model->get_tipo_movimiento('S',$usr);
+			$data['compra']=$this->Contable_model->get_tipocompra();
 			$data['app'] ='salidas';
 			$this->load->view('head');
 			$this->load->view('salidas/salidas_view',$data);
@@ -135,15 +135,15 @@ class Salidas extends CI_Controller {
 		$id_salida=$this->input->get('id_salida');
 		//redirect(base_url().'index.php/pdf/vale_salida?nro='.$nro.'&id_deposito='.$id_deposito);
 		//redirect(base_url().'index.php/pdf/'.REPORTE_DEFAULT.'?nro='.$nro.'&id_deposito='.$id_deposito);
-		redirect(base_url().'index.php/pdf/'.REPORTE_DEFAULT.'?id_salida='.$id_salida);
+		redirect(base_url().'index.php/Pdf/'.REPORTE_DEFAULT.'?id_salida='.$id_salida);
 	}
 
 	function lista_salidas(){
    		$login=$this->control->control_login();
 		if($login==TRUE){
-			$this->load->model('deposito_model');
+			$this->load->model('Deposito_model');
 			$usr=$this->session->userdata('usr');
-	   		$data=$this->deposito_model->get_deposito($usr);
+	   		$data=$this->Deposito_model->get_deposito($usr);
 	   		$deposito='';
 	   		foreach ($data as $key) {
 	   			$deposito.=';'.$key['label'].':'.$key['label'];
@@ -155,10 +155,10 @@ class Salidas extends CI_Controller {
 	}
 
 	function get_salidas(){
-		$this->load->model('deposito_model');
-		$this->load->model('stock_model');
+		$this->load->model('Deposito_model');
+		$this->load->model('Stock_model');
 		$usr=$this->session->userdata('usr');
-	   	$data=$this->deposito_model->get_deposito($usr);
+	   	$data=$this->Deposito_model->get_deposito($usr);
 	   	$deposito="";
 	   	foreach ($data as $key) {
 	   		if($deposito==''){
@@ -167,7 +167,7 @@ class Salidas extends CI_Controller {
 	   			$deposito.=",".$key['value'];
 	   		}
 	   	}
-	   	$dato=$this->stock_model->lista_salidas($deposito);
+	   	$dato=$this->Stock_model->lista_salidas($deposito);
 	   	$this->output
 	      ->set_status_header(200)
 	      ->set_content_type('application/json', 'utf-8')

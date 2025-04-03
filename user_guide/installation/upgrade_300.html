@@ -1043,7 +1043,7 @@ which when combined with <tt class="docutils literal"><span class="pre">date()</
 exact same names as the ones supported by <tt class="docutils literal"><span class="pre">standard_date()</span></tt>. Here are examples of how to replace
 its usage:</p>
 <div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old way</span>
-<span class="nx">standard_date</span><span class="p">();</span> <span class="c1">// defaults to standard_date(&#39;DATE_RFC822&#39;, now());</span>
+<span class="nx">standard_date</span><span class="p">();</span> <span class="c1">// defaults to standard_date(&#39;DATE_RFC822&#39;, );</span>
 
 <span class="c1">// Replacement</span>
 <span class="nb">date</span><span class="p">(</span><span class="nx">DATE_RFC822</span><span class="p">,</span> <span class="nx">now</span><span class="p">());</span>

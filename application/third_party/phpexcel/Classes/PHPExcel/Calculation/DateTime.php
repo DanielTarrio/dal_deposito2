@@ -170,14 +170,14 @@ class PHPExcel_Calculation_DateTime {
 	 * and time format of your regional settings. PHPExcel does not change cell formatting in this way.
 	 *
 	 * Excel Function:
-	 *		NOW()
+	 *		
 	 *
 	 * @access	public
 	 * @category Date/Time Functions
 	 * @return	mixed	Excel date/time serial value, PHP date/time serial value or PHP date/time object,
 	 *						depending on the value of the ReturnDateType flag
 	 */
-	public static function DATETIMENOW() {
+	public static function DATETIME {
 		$saveTimeZone = date_default_timezone_get();
 		date_default_timezone_set('UTC');
 		$retValue = False;
@@ -195,7 +195,7 @@ class PHPExcel_Calculation_DateTime {
 		date_default_timezone_set($saveTimeZone);
 
 		return $retValue;
-	}	//	function DATETIMENOW()
+	}	//	function DATETIME
 
 
 	/**
@@ -217,7 +217,7 @@ class PHPExcel_Calculation_DateTime {
 	 * @return	mixed	Excel date/time serial value, PHP date/time serial value or PHP date/time object,
 	 *						depending on the value of the ReturnDateType flag
 	 */
-	public static function DATENOW() {
+	public static function DATE {
 		$saveTimeZone = date_default_timezone_get();
 		date_default_timezone_set('UTC');
 		$retValue = False;
@@ -236,7 +236,7 @@ class PHPExcel_Calculation_DateTime {
 		date_default_timezone_set($saveTimeZone);
 
 		return $retValue;
-	}	//	function DATENOW()
+	}	//	function DATE
 
 
 	/**

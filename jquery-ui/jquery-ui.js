@@ -8958,7 +8958,7 @@ $.extend(Datepicker.prototype, {
 			inst.drawYear = inst.selectedYear = inst.currentYear;
 		} else {
 			date = new Date();
-			inst.selectedDay = date.getDate();
+			inst.selectedDay = date.Now();
 			inst.drawMonth = inst.selectedMonth = date.getMonth();
 			inst.drawYear = inst.selectedYear = date.getFullYear();
 		}
@@ -9064,7 +9064,7 @@ $.extend(Datepicker.prototype, {
 			checkDate = new Date(date.getTime());
 
 		// Find Thursday of this week starting on Monday
-		checkDate.setDate(checkDate.getDate() + 4 - (checkDate.getDay() || 7));
+		checkDate.setDate(checkDate.Now() + 4 - (checkDate.getDay() || 7));
 
 		time = checkDate.getTime();
 		checkDate.setMonth(0); // Compare with Jan 1
@@ -9194,13 +9194,13 @@ $.extend(Datepicker.prototype, {
 						date = new Date(getNumber("@"));
 						year = date.getFullYear();
 						month = date.getMonth() + 1;
-						day = date.getDate();
+						day = date.Now();
 						break;
 					case "!":
 						date = new Date((getNumber("!") - this._ticksTo1970) / 10000);
 						year = date.getFullYear();
 						month = date.getMonth() + 1;
-						day = date.getDate();
+						day = date.Now();
 						break;
 					case "'":
 						if (lookAhead("'")){
@@ -9243,7 +9243,7 @@ $.extend(Datepicker.prototype, {
 		}
 
 		date = this._daylightSavingAdjust(new Date(year, month - 1, day));
-		if (date.getFullYear() !== year || date.getMonth() + 1 !== month || date.getDate() !== day) {
+		if (date.getFullYear() !== year || date.getMonth() + 1 !== month || date.Now() !== day) {
 			throw "Invalid date"; // E.g. 31/02/00
 		}
 		return date;
@@ -9340,14 +9340,14 @@ $.extend(Datepicker.prototype, {
 				} else {
 					switch (format.charAt(iFormat)) {
 						case "d":
-							output += formatNumber("d", date.getDate(), 2);
+							output += formatNumber("d", date.Now(), 2);
 							break;
 						case "D":
 							output += formatName("D", date.getDay(), dayNamesShort, dayNames);
 							break;
 						case "o":
 							output += formatNumber("o",
-								Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000), 3);
+								Math.round((new Date(date.getFullYear(), date.getMonth(), date.Now()).getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000), 3);
 							break;
 						case "m":
 							output += formatNumber("m", date.getMonth() + 1, 2);
@@ -9447,10 +9447,10 @@ $.extend(Datepicker.prototype, {
 		} catch (event) {
 			dates = (noDefault ? "" : dates);
 		}
-		inst.selectedDay = date.getDate();
+		inst.selectedDay = date.Now();
 		inst.drawMonth = inst.selectedMonth = date.getMonth();
 		inst.drawYear = inst.selectedYear = date.getFullYear();
-		inst.currentDay = (dates ? date.getDate() : 0);
+		inst.currentDay = (dates ? date.Now() : 0);
 		inst.currentMonth = (dates ? date.getMonth() : 0);
 		inst.currentYear = (dates ? date.getFullYear() : 0);
 		this._adjustInstDate(inst);
@@ -9466,7 +9466,7 @@ $.extend(Datepicker.prototype, {
 	_determineDate: function(inst, date, defaultDate) {
 		var offsetNumeric = function(offset) {
 				var date = new Date();
-				date.setDate(date.getDate() + offset);
+				date.setDate(date.Now() + offset);
 				return date;
 			},
 			offsetString = function(offset) {
@@ -9482,7 +9482,7 @@ $.extend(Datepicker.prototype, {
 					$.datepicker._getDate(inst) : null) || new Date(),
 					year = date.getFullYear(),
 					month = date.getMonth(),
-					day = date.getDate(),
+					day = date.Now(),
 					pattern = /([+\-]?[0-9]+)\s*(d|D|w|W|m|M|y|Y)?/g,
 					matches = pattern.exec(offset);
 
@@ -9540,7 +9540,7 @@ $.extend(Datepicker.prototype, {
 			origYear = inst.selectedYear,
 			newDate = this._restrictMinMax(inst, this._determineDate(inst, date, new Date()));
 
-		inst.selectedDay = inst.currentDay = newDate.getDate();
+		inst.selectedDay = inst.currentDay = newDate.Now();
 		inst.drawMonth = inst.selectedMonth = inst.currentMonth = newDate.getMonth();
 		inst.drawYear = inst.selectedYear = inst.currentYear = newDate.getFullYear();
 		if ((origMonth !== inst.selectedMonth || origYear !== inst.selectedYear) && !noChange) {
@@ -9607,7 +9607,7 @@ $.extend(Datepicker.prototype, {
 			printDate, dRow, tbody, daySettings, otherMonth, unselectable,
 			tempDate = new Date(),
 			today = this._daylightSavingAdjust(
-				new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate())), // clear time
+				new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.Now())), // clear time
 			isRTL = this._get(inst, "isRTL"),
 			showButtonPanel = this._get(inst, "showButtonPanel"),
 			hideIfNoPrevNext = this._get(inst, "hideIfNoPrevNext"),
@@ -9629,7 +9629,7 @@ $.extend(Datepicker.prototype, {
 		}
 		if (maxDate) {
 			maxDraw = this._daylightSavingAdjust(new Date(maxDate.getFullYear(),
-				maxDate.getMonth() - (numMonths[0] * numMonths[1]) + 1, maxDate.getDate()));
+				maxDate.getMonth() - (numMonths[0] * numMonths[1]) + 1, maxDate.Now()));
 			maxDraw = (minDate && maxDraw < minDate ? minDate : maxDraw);
 			while (this._daylightSavingAdjust(new Date(drawYear, drawMonth, 1)) > maxDraw) {
 				drawMonth--;
@@ -9755,12 +9755,12 @@ $.extend(Datepicker.prototype, {
 							((!otherMonth || showOtherMonths) && daySettings[2] ? " title='" + daySettings[2].replace(/'/g, "&#39;") + "'" : "") + // cell title
 							(unselectable ? "" : " data-handler='selectDay' data-event='click' data-month='" + printDate.getMonth() + "' data-year='" + printDate.getFullYear() + "'") + ">" + // actions
 							(otherMonth && !showOtherMonths ? "&#xa0;" : // display for other months
-							(unselectable ? "<span class='ui-state-default'>" + printDate.getDate() + "</span>" : "<a class='ui-state-default" +
+							(unselectable ? "<span class='ui-state-default'>" + printDate.Now() + "</span>" : "<a class='ui-state-default" +
 							(printDate.getTime() === today.getTime() ? " ui-state-highlight" : "") +
 							(printDate.getTime() === currentDate.getTime() ? " ui-state-active" : "") + // highlight selected day
 							(otherMonth ? " ui-priority-secondary" : "") + // distinguish dates from other months
-							"' href='#'>" + printDate.getDate() + "</a>")) + "</td>"; // display selectable date
-						printDate.setDate(printDate.getDate() + 1);
+							"' href='#'>" + printDate.Now() + "</a>")) + "</td>"; // display selectable date
+						printDate.setDate(printDate.Now() + 1);
 						printDate = this._daylightSavingAdjust(printDate);
 					}
 					calender += tbody + "</tr>";
@@ -9860,7 +9860,7 @@ $.extend(Datepicker.prototype, {
 			day = Math.min(inst.selectedDay, this._getDaysInMonth(year, month)) + (period === "D" ? offset : 0),
 			date = this._restrictMinMax(inst, this._daylightSavingAdjust(new Date(year, month, day)));
 
-		inst.selectedDay = date.getDate();
+		inst.selectedDay = date.Now();
 		inst.drawMonth = inst.selectedMonth = date.getMonth();
 		inst.drawYear = inst.selectedYear = date.getFullYear();
 		if (period === "M" || period === "Y") {
@@ -9898,7 +9898,7 @@ $.extend(Datepicker.prototype, {
 
 	/* Find the number of days in a given month. */
 	_getDaysInMonth: function(year, month) {
-		return 32 - this._daylightSavingAdjust(new Date(year, month, 32)).getDate();
+		return 32 - this._daylightSavingAdjust(new Date(year, month, 32)).Now();
 	},
 
 	/* Find the day of the week of the first of a month. */

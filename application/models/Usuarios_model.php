@@ -102,7 +102,7 @@ class Usuarios_model extends CI_Model {
 
 	function set_permisos($id_perfil,$id_aplicacion,$usr){
 
-		$Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."permisos (id_perfil, id_aplicacion, id_metodo, mod_usuario, ult_mod) VALUES (".$id_perfil.", ".$id_aplicacion.", NULL, '".$usr."', getdate());";
+		$Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."permisos (id_perfil, id_aplicacion, id_metodo, mod_usuario, ult_mod) VALUES (".$id_perfil.", ".$id_aplicacion.", NULL, '".$usr."', Now());";
 		$query = $this->db->query($Sql);
 		$filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas');
     	return $filas;
@@ -282,7 +282,7 @@ class Usuarios_model extends CI_Model {
 
 		if($accion=='Insertar'){
 
-			$Sql="insert into ".BBDD_ODBC_SQLSRV."usuarios (usuario,id_sector,apellido_nombre,id_perfil, id_personal,clave,conectado,bloqueado,error_login,direccion_ip,inicio_session,session_time,activo,mod_usuario,ult_mod) values('".$usuario."',".$id_sector.",'".$apellido_nombre."',".$id_perfil.",".$id_personal.",'',0,0,0,'',0,0,1,'".$usr."',getdate())";
+			$Sql="insert into ".BBDD_ODBC_SQLSRV."usuarios (usuario,id_sector,apellido_nombre,id_perfil, id_personal,clave,conectado,bloqueado,error_login,direccion_ip,inicio_session,session_time,activo,mod_usuario,ult_mod) values('".$usuario."',".$id_sector.",'".$apellido_nombre."',".$id_perfil.",".$id_personal.",'',0,0,0,'',0,0,1,'".$usr."',Now())";
 			$query = $this->db->query($Sql);
 			$data=$this->db->query('select @@ROWCOUNT as rows_affected;')->row('rows_affected');
 			if($data==0){
@@ -296,7 +296,7 @@ class Usuarios_model extends CI_Model {
 				);
 			}
 		}else{
-			$Sql="update ".BBDD_ODBC_SQLSRV."usuarios set id_sector =".$id_sector.",apellido_nombre ='".$apellido_nombre."',id_perfil =".$id_perfil.",conectado =".$conectado.",bloqueado =".$bloqueado.",error_login =0,activo =".$activo.",mod_usuario ='".$usr."',ult_mod =getdate() where usuario='".$usuario."';";
+			$Sql="update ".BBDD_ODBC_SQLSRV."usuarios set id_sector =".$id_sector.",apellido_nombre ='".$apellido_nombre."',id_perfil =".$id_perfil.",conectado =".$conectado.",bloqueado =".$bloqueado.",error_login =0,activo =".$activo.",mod_usuario ='".$usr."',ult_mod =Now() where usuario='".$usuario."';";
 			$query = $this->db->query($Sql);
 			$data=$this->db->query('select @@ROWCOUNT as rows_affected;')->row('rows_affected');
 			if($data==0){	

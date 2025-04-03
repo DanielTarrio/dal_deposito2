@@ -1076,6 +1076,7 @@ var disponible=0;
         sector: $("#sector").val(),
         centro_costo: $("#centro_costo").val(),
         fecha:$("#fecha").val(),
+        id_sector:$("#id_sector").val(),
         web:0
       }
       $.post('solicitudes/add_solicitud',
@@ -1593,7 +1594,7 @@ var disponible=0;
     <div class="celda">
       <div><label class="etiqueta">Sector: </label></div>
       <input type="text" name="sector" id="sector" placeholder="Sector"  class="ui-widget" style="width:18em;text-align:left;" maxlength="25">
-      <input type="hidden" id="id_sector" name="id_sector">
+      <input type="hidden" id="id_sector" name="id_sector" value="1">
     </div>
     <div class="celda">
       <div><label class="etiqueta">ODT: </label></div>

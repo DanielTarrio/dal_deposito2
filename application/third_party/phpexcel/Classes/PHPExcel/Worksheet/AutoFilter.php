@@ -470,7 +470,7 @@ class PHPExcel_Worksheet_AutoFilter
 		$val = $maxVal = NULL;
 
 		$ruleValues = array();
-		$baseDate = PHPExcel_Calculation_DateTime::DATENOW();
+		$baseDate = PHPExcel_Calculation_DateTime::DATE;
 		//	Calculate start/end dates for the required date range based on current date
 		switch ($dynamicRuleType) {
 			case PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_RULETYPE_DYNAMIC_LASTWEEK :

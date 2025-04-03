@@ -76,7 +76,7 @@ class Sectores_model extends CI_Model {
       $query=$this->db->query($Sql,array($lft));
 
 
-      $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."sectores(sector, lft, rgt, nivel, ult_mod, mod_usuario) VALUES('".$tmp."', ".$lft." + 1, ".$lft." + 2, ".$nivel." + 1, getdate(),'".$usr."');";
+      $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."sectores(sector, lft, rgt, nivel, ult_mod, mod_usuario) VALUES('".$tmp."', ".$lft." + 1, ".$lft." + 2, ".$nivel." + 1, Now(),'".$usr."');";
 
       $query=$this->db->query($Sql);
 

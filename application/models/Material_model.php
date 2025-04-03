@@ -214,7 +214,7 @@ class Material_model extends CI_Model {
     $barcode=$data['barcode'];
     $unidad=$data['unidad'];
 
-    $sql="insert into ".BBDD_ODBC_SQLSRV."material (descripcion, barcode, id_clase, id_sub_clase, unidad, costo_pp, costo_ult, mod_usuario, ult_mod) values ('".$descripcion."','".$barcode."',".$id_clase.",".$id_sub_clase.",'".$unidad."', 0, 0, '".$usr."', getdate())";
+    $sql="insert into ".BBDD_ODBC_SQLSRV."material (descripcion, barcode, id_clase, id_sub_clase, unidad, costo_pp, costo_ult, mod_usuario, ult_mod) values ('".$descripcion."','".$barcode."',".$id_clase.",".$id_sub_clase.",'".$unidad."', 0, 0, '".$usr."', Now())";
     $query = $this->db->query($sql);
     $id_material=$this->db->query('select @@IDENTITY as insert_id;')->row('insert_id');
 
@@ -244,9 +244,9 @@ class Material_model extends CI_Model {
     $barcode=$data['barcode'];
     $unidad=$data['unidad'];
 
-    /*$sql="insert into ".BBDD_ODBC_SQLSRV."material (descripcion, barcode, id_clase, id_sub_clase, unidad, costo_pp, costo_ult, mod_usuario, ult_mod) values ('".$descripcion."','".$barcode."',".$id_clase.",".$id_sub_clase.",'".$unidad."', 0, 0, '".$usr."', getdate())";*/
+    /*$sql="insert into ".BBDD_ODBC_SQLSRV."material (descripcion, barcode, id_clase, id_sub_clase, unidad, costo_pp, costo_ult, mod_usuario, ult_mod) values ('".$descripcion."','".$barcode."',".$id_clase.",".$id_sub_clase.",'".$unidad."', 0, 0, '".$usr."', Now())";*/
 
-    $sql="update ".BBDD_ODBC_SQLSRV."material set descripcion='".$descripcion."', barcode='".$barcode."', id_clase=".$id_clase.", id_sub_clase=".$id_sub_clase.", unidad='".$unidad."', mod_usuario='".$usr."', ult_mod=getdate() where id_material=".$id_material.";";
+    $sql="update ".BBDD_ODBC_SQLSRV."material set descripcion='".$descripcion."', barcode='".$barcode."', id_clase=".$id_clase.", id_sub_clase=".$id_sub_clase.", unidad='".$unidad."', mod_usuario='".$usr."', ult_mod=Now() where id_material=".$id_material.";";
 
     $query = $this->db->query($sql);
     $id_material=$this->db->query('select @@ROWCOUNT as rows_affected;')->row('rows_affected');
@@ -353,10 +353,10 @@ class Material_model extends CI_Model {
     $costo_pp=$data['costo_pp'];
     $costo_ult=$data['costo_ult'];
     //-----------------------------------------
-    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."material_costo (id_material ,costo_ult,mod_usuario,ult_mod) VALUES (".$id_material.",".$costo_ult.",'".$usr."',getdate());";
+    $Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."material_costo (id_material ,costo_ult,mod_usuario,ult_mod) VALUES (".$id_material.",".$costo_ult.",'".$usr."',Now());";
     $query = $this->db->query($Sql);
     //-----------------------------------------
-    $Sql="update ".BBDD_ODBC_SQLSRV."material set barcode='".$barcode."', costo_ult=".$costo_ult.", mod_usuario='".$usr."', ult_mod=getdate() where id_material=".$id_material.";";
+    $Sql="update ".BBDD_ODBC_SQLSRV."material set barcode='".$barcode."', costo_ult=".$costo_ult.", mod_usuario='".$usr."', ult_mod=Now() where id_material=".$id_material.";";
     $query = $this->db->query($Sql);
 
   }

@@ -194,6 +194,7 @@ class Solicitudes extends CI_Controller {
 	      'ot'=>$this->input->post('ot'),
 	      'obs'=>$this->input->post('obs'),
 	      'sector'=>$this->input->post('sector'),
+		  'id_sector'=>$this->input->post('sector'),
 	      'centro_costo'=>$this->input->post('centro_costo'),
 	      'fecha'=>$this->input->post('fecha'),
 	      'web'=>$this->input->post('web')
@@ -201,7 +202,8 @@ class Solicitudes extends CI_Controller {
 	    $grilla=$this->input->post('jgGridData');
 
 	    $usr=$this->session->userdata('usr');
-	    $id_usr_sector=$this->session->userdata('id_sector');
+	    //$id_usr_sector=$this->session->data_usr('id_sector');
+		$id_usr_sector=$this->input->post('id_sector');
 
 	    if($data['id_pedido']==""){
 	    	$dato=$this->solicitud_model->add_solicitud($usr,$data,$grilla,$id_usr_sector);
@@ -276,10 +278,10 @@ class Solicitudes extends CI_Controller {
 	//---------------------------------
 
 	function get_solicitud(){
-		$this->load->model('deposito_model');
-		$this->load->model('solicitud_model');
+		$this->load->model('Deposito_model');
+		$this->load->model('Solicitud_model');
 		$usr=$this->session->userdata('usr');
-	   	//$data=$this->deposito_model->get_deposito($usr);
+	   	$data=$this->Deposito_model->get_deposito($usr);
 	   	$deposito="";
 	   	$deposito=$this->control->dep_auth();
 	   	/*
@@ -292,7 +294,7 @@ class Solicitudes extends CI_Controller {
 	   	}
 	   	*/
 
-	   	$dato=$this->solicitud_model->lista_solicitudes($deposito);
+	   	$dato=$this->Solicitud_model->lista_solicitudes($deposito);
 	   	$this->output
 	      ->set_status_header(200)
 	      ->set_content_type('application/json', 'utf-8')
