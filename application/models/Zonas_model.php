@@ -19,13 +19,13 @@ class Zonas_model extends CI_Model {
     if($query->num_rows() > 0){
 	    foreach ($query->result_array() as $row){
 	      //$new_row['label']=$row['descripcion']; //build an array
-	    	$new_row['id_zona']=utf8_encode($row['id_zona']);
-			$new_row['id_dependencia']=utf8_encode($row['id_dependencia']);
-			$new_row['dependencia']=utf8_encode($row['dependencia']);
-			$new_row['Zona']=utf8_encode($row['Zona']);
-			$new_row['Localidad']=utf8_encode($row['Localidad']);
-			$new_row['Direccion']=utf8_encode($row['Direccion']);
-			$new_row['CP']=utf8_encode($row['CP']);
+	    	$new_row['id_zona']=$row['id_zona'];
+			$new_row['id_dependencia']=$row['id_dependencia'];
+			$new_row['dependencia']=$row['dependencia'];
+			$new_row['Zona']=$row['Zona'];
+			$new_row['Localidad']=$row['Localidad'];
+			$new_row['Direccion']=$row['Direccion'];
+			$new_row['CP']=$row['CP'];
 			if($row['activa']==1){
 				$new_row['activa']="Si";
 			}else{
@@ -181,7 +181,7 @@ class Zonas_model extends CI_Model {
 	    $Sql="UPDATE ".BBDD_ODBC_SQLSRV."zonas set Zona='".$Zona."', Localidad='".$Localidad."', Direccion='".$Direccion."', CP='".$CP."', activa=".$activa.", id_dependencia=".$id_dependencia." where id_zona=".$id_zona.";"; 
 	    $query = $this->db->query($Sql);
 
-	    $filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas');
+	    $filas=$this->db->query('select @ROWCOUNT as filas_afectadas;')->row('filas_afectadas');
 
 
 	    if ($this->db->trans_status() === FALSE){

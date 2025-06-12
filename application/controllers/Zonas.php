@@ -84,9 +84,9 @@ class Zonas extends CI_Controller {
    			$tmp='NULL';
    		}
 		$data=array(
-				'Zona'=>utf8_decode($this->input->post('frm_zona')),
-				'Direccion'=>utf8_decode($this->input->post('frm_direccion')),
-				'Localidad'=>utf8_decode($this->input->post('frm_Localidad')),
+				'Zona'=>$this->input->post('frm_zona'),
+				'Direccion'=>$this->input->post('frm_direccion'),
+				'Localidad'=>$this->input->post('frm_Localidad'),
 				'CP'=>$this->input->post('frm_CP'),
 				'activa'=>$this->input->post('frm_activa'),
 				'id_dependencia'=>$tmp,
@@ -100,9 +100,9 @@ class Zonas extends CI_Controller {
 				'estatus' => 'ok',
 				'clase'=>'u-state-highlight ui-corner-all',
 				'icono'=>'ui-icon ui-icon-info',
-				'Zona'=> utf8_encode($dato['Zona']),
-				'Direccion'=> utf8_encode($dato['Direccion']),
-				'Localidad'=> utf8_encode($dato['Localidad']),
+				'Zona'=> $dato['Zona'],
+				'Direccion'=> $dato['Direccion'],
+				'Localidad'=> $dato['Localidad'],
 				'CP'=> $dato['CP'],
 				'frm'=> $dato['id_zona']
 			);
@@ -135,9 +135,9 @@ class Zonas extends CI_Controller {
    		}
 		$data=array(
 				'id_zona'=>$this->input->post('frm_id_zona'),
-				'Zona'=>utf8_decode($this->input->post('frm_zona')),
-				'Direccion'=>utf8_decode($this->input->post('frm_direccion')),
-				'Localidad'=>utf8_decode($this->input->post('frm_Localidad')),
+				'Zona'=>$this->input->post('frm_zona'),
+				'Direccion'=>$this->input->post('frm_direccion'),
+				'Localidad'=>$this->input->post('frm_Localidad'),
 				'CP'=>$this->input->post('frm_CP'),
 				'activa'=>$this->input->post('frm_activa'),
 				'id_dependencia'=>$tmp,
@@ -149,9 +149,9 @@ class Zonas extends CI_Controller {
 		if($dato['msg']=="ok"){
 			$data=array(
 				'estatus' => 'ok',
-				'Zona'=> utf8_encode($dato['Zona']),
-				'Direccion'=> utf8_encode($dato['Direccion']),
-				'Localidad'=> utf8_encode($dato['Localidad']),
+				'Zona'=> $dato['Zona'],
+				'Direccion'=> $dato['Direccion'],
+				'Localidad'=> $dato['Localidad'],
 				'CP'=> $dato['CP'],
 				'frm'=> $dato['id_zona']
 			);

@@ -1,4 +1,4 @@
-<?php
+docker compose<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Vale_pdf extends CI_Controller {

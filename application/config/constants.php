@@ -100,7 +100,7 @@ define('DN',      'dc=aysa,dc=ad'); // Dominio
 define('TIME_OUT','3600');
 
 //Estilo default redmon/ | darknes/ | vader/ | humanity/ | defecto/
-define('EstiloCss','darknes/');
+define('EstiloCss','humanity/');
 
 //Reporte por defecto 'vale_salida' | 'vale_salida_P'
 define('REPORTE_DEFAULT','vale_salidaId');
