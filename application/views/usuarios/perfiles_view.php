@@ -622,7 +622,9 @@ $(function() {
               primary:"ui-icon-circle-check"
             },
           click: function(){
+            //let perfil=
             $(this).dialog("close");
+            set_perfil($("#frm_perfil").val());
           }
         },{
           text:"Cancelar",
@@ -638,6 +640,92 @@ $(function() {
       ]
     });
   }
+
+  //==============================================
+  function set_perfil(perfil){
+    alert(perfil);
+      
+      var data = {
+        perfil: perfil
+      }
+      
+      $.post('set_perfil',
+        data,
+        function(returnedData){
+          console.log(returnedData);
+          if(returnedData['estatus']!="ERROR"){
+            
+            var msg="<p><span class=\"ui-icon ui-icon-check\" style=\"float:left;margin:0 7px 50px 0;\"></span>\""+returnedData['msg']+"\"</p>";
+          }else{
+            var msg="<p><span class=\"ui-icon ui-icon-alert\" style=\"float:left;margin:0 7px 50px 0;\"></span>\"ERROR# "+returnedData['msg']+"\"<br></p>";
+          }
+          $("#loader").hide();
+          $("#dialogo").removeClass();
+          $("#dialogo").removeAttr();
+          
+          $("#dialogo").html(msg);
+          $("#dialogo").dialog({
+            modal: true,
+            height: 200,
+            width: 300,
+            resizable: true,
+            title: "Alta de Perfil",
+            buttons:[
+            {
+              text:"Aceptar",
+              icons:{
+                primary:"ui-icon-circle-check"
+              },
+              click: function(){
+                $(this).dialog("close");
+                $("#frm").dialog("close");
+                Refrescar();
+                //jQuery("#jqGridVale").addRowData(i, data);
+
+                //jQuery("#jqGridVale").setRowData(i, data);
+                //Bloquear();
+              }
+            }
+            ]
+          });
+    //==========================================      
+        }
+        ).fail(function(){
+          console.log("Error");
+    //==========================================
+        /*  $("#loader").hide();
+          $("#loader").removeClass();
+          $("#loader").removeAttr();*/
+          $("#dialogo").removeClass();
+          $("#dialogo").removeAttr();
+          var msg="<p><span class=\"ui-icon ui-icon-alert\" style=\"float:left;margin:0 7px 50px 0;\"></span>\"Error en la peticion AJAX\"</p>";
+          $("#dialogo").html(msg);
+          $("#dialogo").dialog({
+            modal: true,
+            height: 200,
+            width: 300,
+            resizable: true,
+            title: "Alta de Perfil",
+            buttons:[
+              {
+                text:"Aceptar",
+                  icons:{
+                    primary:"ui-icon-circle-check"
+                  },
+                click: function(){
+                  $(this).dialog("close");
+                  $("#frm").dialog("close");
+                }
+              }
+            ]
+          });
+      });
+      
+    }
+//============================================
+
+
+  //==============================================
 
   function help_window(){
      window.open('<?php echo base_url()?>help/entrada_hlp.php','Tutorial','status=no,toolbar=no,resizable=yes,scrollbars=yes,width=900,height=700,left=200,top=150');
@@ -826,7 +914,7 @@ $(function() {
   </div>
   
   <div class="ui-corner-all" style="margin:3px; padding:10px 3px 10px 3px">
-     <div style="margin: auto; width: 40em; height:3em; padding:0.4em; float: left;">
+     <div style="margin: auto; width: 40em; height:3em; padding:0.4em; float: left; margin-left:50px">
       <table id="tree"></table>
       <div id="pager"></div>
     </div>

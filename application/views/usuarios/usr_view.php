@@ -1,22 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <script type="text/javascript">
   $(function() {
-  		
-  		$("#frm_apellido_nombre").autocomplete({
-	      source: "<?php echo base_url();?>index.php/contable/get_personal", // path to the get_birds method
-	        minLength: 2,
-	      focus: function( event, ui ) {
-	        $( "#frm_apellido_nombre" ).val( ui.item.apellido_nombre);
-	        $("#frm_usuario").val("a0"+ui.item.legajo);
-	        $("#frm_id_personal").val(ui.item.id_personal);
-	        return false;
-	      },
-	      select: function( event, ui ) {
-	        
-	        return false;
-	      }
-	    });
-
+  	
   		$("div[id^=status]").hover(
 			function() {
 				$( this ).addClass( "ui-state-hover" );
@@ -189,5 +174,4 @@
 	<input id="frm_bloqueado" type="hidden" value="<?php echo $bloqueado;?>">
 	<input id="frm_conectado" type="hidden" value="<?php echo $conectado;?>">
 	<input id="frm_activo" type="hidden" value="<?php echo $activo;?>">
-	<input id="frm_id_personal" type="hidden" value="<?php echo $id_personal;?>">
 </div>

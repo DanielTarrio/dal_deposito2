@@ -217,10 +217,8 @@
       <li class="ui-state-default ui-corner-all" title="Menu">
         <span id="new_usr" class="ui-icontool ui-icontool-usuario"></span>
       </li>
-      <li class="ui-state-default ui-corner-all" title="Menu">
-        <a href="<?php echo base_url().'index.php/menu/crear_menu/configuracion'; ?>">
-          <span class="ui-icontool ui-icontool-clave"></span>
-        </a>
+      <li class="ui-state-default ui-corner-all" title="Password Admin">
+          <span  id="pws_admin" class="ui-icontool ui-icontool-clave"></span>
       </li>
     </ul>
   </div>   
@@ -268,7 +266,7 @@
             $("#frm").load("<?php echo base_url();?>index.php/usuarios/edit_usr");
             $("#frm").dialog({
             modal: true,
-            height: 400,
+            height: 450,
             width: 550,
             resizable: true,
             title: "Alta de usuario",
@@ -301,7 +299,6 @@
           $("#frm").dialog('open');
 
         });
-
 
         $("#jqGridVale").jqGrid({
             url: 'get_lista_usr',
@@ -521,7 +518,189 @@
       });
       $("#frm").dialog('open');
     }
+//==========Passwor Admin==========
+    $("#pws_admin").click(function(){
+      
+      
+        $("#frm").hide();
+        $("#frm").load("<?php echo base_url();?>index.php/usuarios/psw_admin");
+        $("#frm").dialog({
+        modal: true,
+        height: 200,
+        width: 600,
+        resizable: true,
+        title: "Password Administrador",
+        buttons:[
+          {
+            text:"Aplicar",
+            icons:{
+              primary:"ui-icon-circle-check"
+            },
+            click: function(){
+              //if($("#frm").val()=="OK"){
+                pws();
+                //$(this).dialog("close");
+              //}else{
+              //  $(this).dialog("close");
+              //}
+            }
+          },
+          {
+            text:"Cancelar",
+            icons:{
+              primary:"ui-icon-circle-close"
+            },
+            click: function(){
+              $(this).dialog("close");
+            }
+          }
+        ]
+        });
+        $("#frm").dialog('open');
 
+    });
+
+//============================================
+    function pws(){
+
+      let psw1=$("#frm_psw_admin").val();
+      let psw2=$("#frm_psw_admin2").val();
+      let psw="";
+      alert(psw1+"  "+psw2);
+      if(psw1==psw2){
+        if(psw1.length<12){
+          psw="La longitud debe ser como minimo 12 caracteeres";
+        }else{
+          psw="OK"
+        }
+      }else{
+        psw="No coinciden los passwords";
+      }
+
+      if(psw=="OK"){  
+
+        $("#dialogo").html("-Esta seguro de aplicar los cambios?");
+        $("#dialogo").dialog({
+            modal: true,
+            height: 150,
+            width: 300,
+            resizable: true,
+            title: "Confirmación de cambios",
+            buttons:[
+              {
+                text:"Aplr",
+                icons:{
+                  primary:"ui-icon-circle-check"
+                },
+                click: function(){
+                //if($("#frm").val()=="OK"){
+                  set_pws_admin();
+                  $(this).dialog("close");
+                //}else{
+                //  $(this).dialog("close");
+                //}
+                }
+              },
+              {
+              text:"Cancelar",
+              icons:{
+              primary:"ui-icon-circle-close"
+              },
+              click: function(){
+                $("#frm").dialog("close");
+                $(this).dialog("close");
+              }
+            }
+          ]
+        });
+        $("#dialogo").dialog('open');
+      }else{
+        alert(psw);
+      }
+
+
+    }
+
+    function set_pws_admin(){
+      
+      var data = {
+        pws1: $("#frm_psw_admin").val()
+      }
+      
+      $.post('set_pws_admin',
+        data,
+        function(returnedData){
+          console.log(returnedData);
+          if(returnedData['estatus']!="ERROR"){
+            
+            var msg="<p><span class=\"ui-icon ui-icon-check\" style=\"float:left;margin:0 7px 50px 0;\"></span>\""+returnedData['msg']+"\"</p>";
+          }else{
+            var msg="<p><span class=\"ui-icon ui-icon-alert\" style=\"float:left;margin:0 7px 50px 0;\"></span>\"ERROR# "+returnedData['msg']+"\"<br></p>";
+          }
+          $("#loader").hide();
+          $("#dialogo").removeClass();
+          $("#dialogo").removeAttr();
+          
+          $("#dialogo").html(msg);
+          $("#dialogo").dialog({
+            modal: true,
+            height: 200,
+            width: 300,
+            resizable: true,
+            title: "Entrada de Materiales",
+            buttons:[
+            {
+              text:"Aceptar",
+              icons:{
+                primary:"ui-icon-circle-check"
+              },
+              click: function(){
+                $(this).dialog("close");
+                $("#frm").dialog("close");
+                Refrescar();
+                //jQuery("#jqGridVale").addRowData(i, data);
+
+                //jQuery("#jqGridVale").setRowData(i, data);
+                //Bloquear();
+              }
+            }
+            ]
+          });
+    //==========================================      
+        }
+        ).fail(function(){
+          console.log("Error");
+    //==========================================
+        /*  $("#loader").hide();
+          $("#loader").removeClass();
+          $("#loader").removeAttr();*/
+          $("#dialogo").removeClass();
+          $("#dialogo").removeAttr();
+          var msg="<p><span class=\"ui-icon ui-icon-alert\" style=\"float:left;margin:0 7px 50px 0;\"></span>\"Error en la peticion AJAX\"</p>";
+          $("#dialogo").html(msg);
+          $("#dialogo").dialog({
+            modal: true,
+            height: 200,
+            width: 300,
+            resizable: true,
+            title: "Entrada de Materiales",
+            buttons:[
+              {
+                text:"Aceptar",
+                  icons:{
+                    primary:"ui-icon-circle-check"
+                  },
+                click: function(){
+                  $(this).dialog("close");
+                  $("#frm").dialog("close");
+                }
+              }
+            ]
+          });
+      });
+      
+    }
+//============================================
     function aplicar(){
       //alert('aplicar');
       //$("#dialogo").hide();
@@ -572,7 +751,6 @@
         apellido_nombre: $("#frm_apellido_nombre").val(),
         id_sector: $("#frm_id_sector").val(),
         id_perfil: $("#frm_id_perfil").val(),
-        id_personal: $("#frm_id_personal").val(),
         bloqueado: $("#frm_bloqueado").val(),
         conectado: $("#frm_conectado").val(),
         activo: $("#frm_activo").val()

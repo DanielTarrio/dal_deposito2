@@ -616,8 +616,8 @@ class Stock_model extends CI_Model {
 
 	function rep_movimientos($id_deposito,$F_inicio, $F_fin){
 
-		$F_inicio=$this->control->ParseDMYtoYMD($F_inicio,'/');
-		$F_fin=$this->control->ParseDMYtoYMD($F_fin,'/');
+		//$F_inicio=$this->control->ParseDMYtoYMD($F_inicio,'/');
+		//$F_fin=$this->control->ParseDMYtoYMD($F_fin,'/');
 		
 		$Sql="SELECT m.id_movimiento,t.movimiento, t.tipo,m.id_salida,s.odt,s.nro,s.nro_pedido,s.sector,q.Zona,s.destino,s.fecha as f_salida,m.id_detalle_salida,m.id_deposito,z.deposito,m.id_entrada,e.fecha as f_entrada,e.id_proveedor,p.proveedor,e.id_compra,c.compra,e.remito,m.id_detalle_entrada,m.centro_costo,m.nro,m.id_material,x.barcode,x.descripcion,x.unidad,m.cantidad,m.mod_usuario,m.ult_mod,m.id_tipo_mov,s.id_personal FROM ".BBDD_ODBC_SQLSRV."movimientos m   inner join ".BBDD_ODBC_SQLSRV."material x on m.id_material=x.id_material inner join ".BBDD_ODBC_SQLSRV."deposito z on m.id_deposito=z.id_deposito  inner join ".BBDD_ODBC_SQLSRV."tipo_movimiento t on m.id_tipo_mov=t.id_tipo_mov left join ".BBDD_ODBC_SQLSRV."salida s on m.id_salida=s.id_salida left join ".BBDD_ODBC_SQLSRV."entrada e on m.id_entrada=e.id_entrada left join ".BBDD_ODBC_SQLSRV."proveedores p on e.id_proveedor=p.id_proveedor left join ".BBDD_ODBC_SQLSRV."zonas q on s.id_zona=q.id_zona left join ".BBDD_ODBC_SQLSRV."tipo_compra c on e.id_tipo_compra=c.id_tipo_compra where m.id_deposito=".$id_deposito." and s.fecha between '".$F_inicio."' and '".$F_fin."' or  m.id_deposito=".$id_deposito." and e.fecha between '".$F_inicio."' and '".$F_fin."' order by 1 asc;";
 
@@ -866,13 +866,14 @@ class Stock_model extends CI_Model {
 		$barcode = $dato['barcode'];
 
 
-		$Sql="select x.deposito, CONVERT (varchar(10), s.fecha, 103) AS fecha, t.tipo, d.nro, d.id_material,m.barcode,m.descripcion,m.unidad,d.cantidad, d.mod_usuario from ".BBDD_ODBC_SQLSRV."detalle_salida d inner join ".BBDD_ODBC_SQLSRV."salida s on d.id_salida=s.id_salida inner join ".BBDD_ODBC_SQLSRV."material m on d.id_material=m.id_material inner join ".BBDD_ODBC_SQLSRV."deposito x on d.id_deposito=x.id_deposito inner join ".BBDD_ODBC_SQLSRV."tipo_movimiento t on s.id_tipo_mov=t.id_tipo_mov";
+		$Sql="select x.deposito, s.fecha, t.tipo, d.nro, d.id_material,m.barcode,m.descripcion,m.unidad,d.cantidad, d.mod_usuario from ".BBDD_ODBC_SQLSRV."detalle_salida d inner join ".BBDD_ODBC_SQLSRV."salida s on d.id_salida=s.id_salida inner join ".BBDD_ODBC_SQLSRV."material m on d.id_material=m.id_material inner join ".BBDD_ODBC_SQLSRV."deposito x on d.id_deposito=x.id_deposito inner join ".BBDD_ODBC_SQLSRV."tipo_movimiento t on s.id_tipo_mov=t.id_tipo_mov";
 
 		if($id_deposito!=""){
 			$where=" where x.id_deposito=".$id_deposito;
 		}
 		
 		if(($F_inicio!="") and ($F_fin!="")){
+
 			if($where!=""){
 				$where.=" and s.fecha between '".$F_inicio."' and '".$F_fin."'";
 			}else{
@@ -1014,8 +1015,8 @@ class Stock_model extends CI_Model {
 
 	function rep_consumo_ctro_cto($id_deposito,$F_inicio, $F_fin, $centro_costo){
 
-		$F_inicio=$this->control->ParseDMYtoYMD($F_inicio,'/');
-		$F_fin=$this->control->ParseDMYtoYMD($F_fin,'/');
+		//$F_inicio=$this->control->ParseDMYtoYMD($F_inicio,'/');
+		//$F_fin=$this->control->ParseDMYtoYMD($F_fin,'/');
 
 		$where=" where x.id_deposito=".$id_deposito." and s.fecha between '".$F_inicio."' and '".$F_fin."'";
 

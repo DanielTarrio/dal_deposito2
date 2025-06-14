@@ -314,8 +314,9 @@ class Stock extends CI_Controller {
 	    $id_material = $this->input->get('id_material');
         $material = $this->input->get('material');
         $barcode = $this->input->get('barcode');
-	    $F_inicio = $this->control->ParseDMYtoYMD($F_inicio,'/');
-	    $F_fin = $this->control->ParseDMYtoYMD($F_fin,'/');
+	    //$F_inicio = $this->control->ParseDMYtoYMD($F_inicio,'/');
+	    //$F_fin = $this->control->ParseDMYtoYMD($F_fin,'/');
+		
 
 
 	    $dato = array(

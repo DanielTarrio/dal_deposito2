@@ -5,19 +5,58 @@ class Usuarios_model extends CI_Model {
 
 	function get_perfiles(){
 		
-		$Sql="select * from ".BBDD_ODBC_SQLSRV."perfiles;";
+		$Sql="select * from ".BBDD_ODBC_SQLSRV."perfiles where perfil <> 'sudo';";
 		$query = $this->db->query($Sql);
 
 	    if($query->num_rows() > 0){
 
 	      foreach ($query->result_array() as $row){
 	        //$new_row['label']=$row['descripcion']; //build an array
-	        $new_row['value']=utf8_encode($row['id_perfil']);
-	        $new_row['label']=utf8_encode($row['perfil']);
+	        $new_row['value']=$row['id_perfil'];
+	        $new_row['label']=$row['perfil'];
 	        $row_set[] = $new_row; //build an array
 	      }
 	      return $row_set; //format the array into json data
 	    }
+
+	}
+
+	function set_perfil($data,$usr){
+		$Sql="INSERT INTO perfiles (perfil, mod_usuario, ult_mod) values ('".$data."', '".$usr."',NOW());";
+		$msg=$data;
+		$query = $this->db->query($Sql);
+		$data=$this->db->affected_rows();
+		if($data==0){
+			$data = array(
+				'estatus' => 'ERROR',
+				'msg'=>'No se pudo insertar el perfil'
+			);
+		}else{
+			$data = array('estatus' => 'OK',
+				'msg'=>'Se inserto el perfil '.$msg
+			);
+		}
+		return $data;
+	}
+
+	function pws_admin($psw){
+
+		$psw=md5($psw);
+		
+		$Sql="Update usuarios set clave='".$psw."',ult_mod=NOW() where usuario='admin';";
+		$query = $this->db->query($Sql);
+		$data=$this->db->affected_rows();
+		if($data==0){
+			$data = array(
+				'estatus' => 'ERROR',
+				'msg'=>'No se pudo actualizar el password'
+			);
+		}else{
+			$data = array('estatus' => 'OK',
+				'msg'=>'Se actualizo el password'
+			);
+		}
+		return $data;
 
 	}
 
@@ -102,9 +141,10 @@ class Usuarios_model extends CI_Model {
 
 	function set_permisos($id_perfil,$id_aplicacion,$usr){
 
-		$Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."permisos (id_perfil, id_aplicacion, id_metodo, mod_usuario, ult_mod) VALUES (".$id_perfil.", ".$id_aplicacion.", NULL, '".$usr."', Now());";
+		$Sql="INSERT INTO ".BBDD_ODBC_SQLSRV."permisos (id_perfil, id_aplicacion, id_metodo, mod_usuario, ult_mod) VALUES (".$id_perfil.", ".$id_aplicacion.", NULL, '".$usr."', NOW());";
 		$query = $this->db->query($Sql);
-		$filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas');
+		//$filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas'); SQLSerever -> MariaDB
+		$filas=$this->db->affected_rows();
     	return $filas;
 	}
 
@@ -112,7 +152,8 @@ class Usuarios_model extends CI_Model {
 
 		$Sql="delete from ".BBDD_ODBC_SQLSRV."permisos where id_perfil=".$id_perfil." and id_aplicacion in (SELECT node.id_aplicacion FROM ".BBDD_ODBC_SQLSRV."aplicaciones AS node, ".BBDD_ODBC_SQLSRV."aplicaciones AS parent WHERE node.lft BETWEEN parent.lft AND parent.rgt AND parent.id_aplicacion = ".$id_aplicacion.");";
 		$query = $this->db->query($Sql);
-		$filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas');
+		//$filas=$this->db->query('select @@ROWCOUNT as filas_afectadas;')->row('filas_afectadas');  SQLSerever -> MariaDB
+		$filas=$this->db->affected_rows();
     	return $filas;
 
 	}
@@ -125,11 +166,11 @@ class Usuarios_model extends CI_Model {
 
 		foreach ($query->result() as $row){
 			
-			$new_row['id_tipo_mov']=utf8_encode($row->id_tipo_mov);
-			$new_row['tipo']=utf8_encode($row->tipo);
-			$new_row['movimiento']=utf8_encode($row->movimiento);
-			$new_row['factor']=utf8_encode($row->factor);
-			$tmp=utf8_encode($row->id_permiso_mov);
+			$new_row['id_tipo_mov']=$row->id_tipo_mov;
+			$new_row['tipo']=$row->tipo;
+			$new_row['movimiento']=$row->movimiento;
+			$new_row['factor']=$row->factor;
+			$tmp=$row->id_permiso_mov;
 			if($tmp!=NULL){
 				$tmp=true;
 			}else{
@@ -154,9 +195,9 @@ class Usuarios_model extends CI_Model {
 
 	    if($query->num_rows() > 0){
 	      foreach ($query->result_array() as $row){
-	        $new_row['value']=utf8_encode($row['usuario']);
-	        $new_row['label']=utf8_encode($row['col1']);
-	        $new_row['apellido_nombre']=utf8_encode($row['apellido_nombre']);
+	        $new_row['value']=$row['usuario'];
+	        $new_row['label']=$row['col1'];
+	        $new_row['apellido_nombre']=$row['apellido_nombre'];
 	        $row_set[] = $new_row; //build an array
 	      }
 	      return $row_set; //format the array into json data
@@ -166,7 +207,14 @@ class Usuarios_model extends CI_Model {
 
 	function get_lista_usr(){
 
-		$Sql="select u.usuario, u.id_sector, s.sector, u.apellido_nombre, u.id_perfil, p.perfil, u.clave, u.session, u.conectado, u.bloqueado, u.error_login, u.direccion_ip, u.inicio_session, u.session_time, u.activo, (u.session_time-u.inicio_session) as tiempo from ".BBDD_ODBC_SQLSRV."usuarios u inner join ".BBDD_ODBC_SQLSRV."sectores s on u.id_sector=s.id_sector inner join ".BBDD_ODBC_SQLSRV."perfiles p on u.id_perfil=p.id_perfil;";
+
+		/*
+		Se excluye de listado al usuario Admin por seguridad
+
+		$Sql="select u.usuario, u.id_sector, s.sector, u.apellido_nombre, u.id_perfil, p.perfil, u.clave, u.session, u.conectado, u.bloqueado, u.error_login, u.direccion_ip, u.inicio_session, u.session_time, u.activo, (u.session_time-u.inicio_session) as tiempo from ".BBDD_ODBC_SQLSRV."usuarios u inner join ".BBDD_ODBC_SQLSRV."sectores s on u.id_sector=s.id_sector inner join ".BBDD_ODBC_SQLSRV."perfiles p on u.id_perfil=p.id_perfil ;";
+		*/
+
+		$Sql="select u.usuario, u.id_sector, s.sector, u.apellido_nombre, u.id_perfil, p.perfil, u.clave, u.session, u.conectado, u.bloqueado, u.error_login, u.direccion_ip, u.inicio_session, u.session_time, u.activo, (u.session_time-u.inicio_session) as tiempo from ".BBDD_ODBC_SQLSRV."usuarios u inner join ".BBDD_ODBC_SQLSRV."sectores s on u.id_sector=s.id_sector inner join ".BBDD_ODBC_SQLSRV."perfiles p on u.id_perfil=p.id_perfil where u.usuario <> 'Admin';";
 
 		$query = $this->db->query($Sql);
 
@@ -175,7 +223,7 @@ class Usuarios_model extends CI_Model {
 	    	
 			foreach ($query->result_array() as $row) {
 				$new_row['usuario']= $row['usuario'];
-				$new_row['apellido_nombre']= utf8_encode($row['apellido_nombre']);
+				$new_row['apellido_nombre']= $row['apellido_nombre'];
 				$new_row['id_perfil']= $row['id_perfil'];
 				$new_row['perfil']= $row['perfil'];
 				$new_row['id_sector']= $row['id_sector'];
@@ -223,7 +271,7 @@ class Usuarios_model extends CI_Model {
 	function get_usr_status($usuario){
 
 
-		$Sql="select u.usuario, u.id_sector, s.sector, u.apellido_nombre, u.id_perfil, p.perfil, u.id_personal, u.clave, u.session, u.conectado, u.bloqueado, u.error_login, u.direccion_ip, u.inicio_session, u.session_time, u.activo, (u.session_time-u.inicio_session) as tiempo from ".BBDD_ODBC_SQLSRV."usuarios u inner join ".BBDD_ODBC_SQLSRV."sectores s on u.id_sector=s.id_sector inner join ".BBDD_ODBC_SQLSRV."perfiles p on u.id_perfil=p.id_perfil where u.usuario='".$usuario."';";
+		$Sql="select u.usuario, u.id_sector, s.sector, u.apellido_nombre, u.id_perfil, p.perfil, u.clave, u.session, u.conectado, u.bloqueado, u.error_login, u.direccion_ip, u.inicio_session, u.session_time, u.activo, (u.session_time-u.inicio_session) as tiempo from ".BBDD_ODBC_SQLSRV."usuarios u inner join ".BBDD_ODBC_SQLSRV."sectores s on u.id_sector=s.id_sector inner join ".BBDD_ODBC_SQLSRV."perfiles p on u.id_perfil=p.id_perfil where u.usuario='".$usuario."';";
 
 		$query = $this->db->query($Sql);
 
@@ -232,10 +280,9 @@ class Usuarios_model extends CI_Model {
 	    	
 			foreach ($query->result_array() as $row) {
 				$new_row['usuario']= $row['usuario'];
-				$new_row['apellido_nombre']= utf8_encode($row['apellido_nombre']);
+				$new_row['apellido_nombre']= $row['apellido_nombre'];
 				$new_row['id_perfil']= $row['id_perfil'];
 				$new_row['perfil']= $row['perfil'];
-				$new_row['id_personal']= $row['id_personal'];
 				$new_row['id_sector']= $row['id_sector'];
 				$new_row['sector']= $row['sector'];
 				$new_row['clave']= $row['clave'];
@@ -272,7 +319,6 @@ class Usuarios_model extends CI_Model {
 		$apellido_nombre=$data['apellido_nombre'];
 		$id_sector=$data['id_sector'];
 		$id_perfil=$data['id_perfil'];
-		$id_personal=$data['id_personal'];
 		$bloqueado=$data['bloqueado'];
 		$conectado=$data['conectado'];
 		$activo=$data['activo'];
@@ -282,9 +328,10 @@ class Usuarios_model extends CI_Model {
 
 		if($accion=='Insertar'){
 
-			$Sql="insert into ".BBDD_ODBC_SQLSRV."usuarios (usuario,id_sector,apellido_nombre,id_perfil, id_personal,clave,conectado,bloqueado,error_login,direccion_ip,inicio_session,session_time,activo,mod_usuario,ult_mod) values('".$usuario."',".$id_sector.",'".$apellido_nombre."',".$id_perfil.",".$id_personal.",'',0,0,0,'',0,0,1,'".$usr."',Now())";
+			$Sql="insert into ".BBDD_ODBC_SQLSRV."usuarios (usuario,id_sector,apellido_nombre,id_perfil,clave,conectado,bloqueado,error_login,direccion_ip,inicio_session,session_time,activo,mod_usuario,ult_mod) values('".$usuario."',".$id_sector.",'".$apellido_nombre."',".$id_perfil.",'',0,0,0,'',0,0,1,'".$usr."',NOW())";
 			$query = $this->db->query($Sql);
-			$data=$this->db->query('select @@ROWCOUNT as rows_affected;')->row('rows_affected');
+			//$data=$this->db->query('select @@ROWCOUNT as rows_affected;')->row('rows_affected');  SQLSerever -> MariaDB
+			$data=$this->db->affected_rows();
 			if($data==0){
 				$data = array(
 					'estatus' => 'ERROR',
@@ -296,9 +343,10 @@ class Usuarios_model extends CI_Model {
 				);
 			}
 		}else{
-			$Sql="update ".BBDD_ODBC_SQLSRV."usuarios set id_sector =".$id_sector.",apellido_nombre ='".$apellido_nombre."',id_perfil =".$id_perfil.",conectado =".$conectado.",bloqueado =".$bloqueado.",error_login =0,activo =".$activo.",mod_usuario ='".$usr."',ult_mod =Now() where usuario='".$usuario."';";
+			$Sql="update ".BBDD_ODBC_SQLSRV."usuarios set id_sector =".$id_sector.",apellido_nombre ='".$apellido_nombre."',id_perfil =".$id_perfil.",conectado =".$conectado.",bloqueado =".$bloqueado.",error_login =0,activo =".$activo.",mod_usuario ='".$usr."',ult_mod =NOW() where usuario='".$usuario."';";
 			$query = $this->db->query($Sql);
-			$data=$this->db->query('select @@ROWCOUNT as rows_affected;')->row('rows_affected');
+			////$data=$this->db->query('select @@ROWCOUNT as rows_affected;')->row('rows_affected');  SQLSerever -> MariaDB
+			$data=$this->db->affected_rows();
 			if($data==0){	
 				$data = array(
 					'estatus' => 'ERROR',
@@ -313,7 +361,5 @@ class Usuarios_model extends CI_Model {
 
 		return $data;
 
-	}
-
-
+	}	
 }

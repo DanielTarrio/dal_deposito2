@@ -79,14 +79,14 @@ var disponible=0;
     $("#help").click(function(){
       help_window();
     });
-
+    /*
     $("#fecha").datepicker({
         dateFormat:'dd/mm/yy',
         dayNamesMin:['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
         monthNames:['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         //minDate: new Date(2016, 6, 25)
     });
-
+    */
     $("#anular").click(function(){
 
       var msg="¿Esta seguro de anular el pedido nro. "+$("#nro").val()+"?";
@@ -1577,7 +1577,7 @@ var disponible=0;
 	    </div>
     <div class="celda_right">
     	<label class="etiqueta">Fecha: </label>
-    	<input type="text" id="fecha" name="fecha" value="<?php echo date("d/m/Y"); ?>"  class="ui-widget" style="width:8em;text-align:center;margin:0.4em">
+    	<input type="Date" id="fecha" name="fecha" value="<?php echo date("Y-m-d"); ?>"  class="ui-widget" style="width:8em;text-align:center;margin:0.4em">
     </div>
 	</div>
 	<div class="linea">

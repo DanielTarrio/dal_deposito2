@@ -532,11 +532,11 @@ m.id_material,x.descripcion,x.unidad,m.cantidad,m.mod_usuario,m.ult_mod,m.id_tip
   <div class="linea">
     <div class="celda">
       <label class="etiqueta">Fecha Inicio: </label>
-      <input type="text" id="FechaInicio" name="FechaInicio" value=""  class="ui-widget" style="width:8em;text-align:center;margin:0.4em">
+      <input type="Date" id="FechaInicio" name="FechaInicio" value=""  class="ui-widget" style="width:8em;text-align:center;margin:0.4em">
     </div>
     <div class="celda">
       <label class="etiqueta">Fecha Fin: </label>
-      <input type="text" id="FechaFin" name="FechaFin" value=""  class="ui-widget" style="width:8em;text-align:center;margin:0.4em">
+      <input type="Date" id="FechaFin" name="FechaFin" value=""  class="ui-widget" style="width:8em;text-align:center;margin:0.4em">
     </div>
   </div>
   

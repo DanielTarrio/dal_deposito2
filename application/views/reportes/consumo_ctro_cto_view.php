@@ -79,7 +79,7 @@ $(function() {
   });
 
 
-
+/*
   $("#FechaInicio").datepicker({
     dateFormat:'dd/mm/yy',
     dayNamesMin:['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
@@ -96,7 +96,7 @@ $(function() {
     monthNames:['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     //minDate: new Date(2016, 6, 25)
   });
-
+*/
   $( "#icons li" ).hover(
       function() {
           $( this ).addClass( "ui-state-hover" );
@@ -485,13 +485,13 @@ m.id_material,x.descripcion,x.unidad,m.cantidad,m.mod_usuario,m.ult_mod,m.id_tip
       <div>
         <label class="etiqueta">Fecha Inicio: </label>
       </div>
-      <input type="text" id="FechaInicio" name="FechaInicio" value=""  class="ui-widget" style="width:8em;text-align:center;">
+      <input type="Date" id="FechaInicio" name="FechaInicio" value=""  class="ui-widget" style="width:8em;text-align:center;">
     </div>
     <div class="celda">
       <div>
         <label class="etiqueta">Fecha Fin: </label>
       </div>
-      <input type="text" id="FechaFin" name="FechaFin" value=""  class="ui-widget" style="width:8em;text-align:center;">
+      <input type="Date" id="FechaFin" name="FechaFin" value=""  class="ui-widget" style="width:8em;text-align:center;">
     </div>
   </div>
   <div class="ui-corner-all" style="margin:3px; padding:10px 3px 10px 3px">

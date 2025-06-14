@@ -17,6 +17,22 @@ class Usuarios extends CI_Controller {
 
 	}
 
+	function set_perfil(){
+		$login=$this->control->control_login();
+		$usr=$this->session->userdata('usr');
+		if($login==TRUE){
+			$data=$this->input->post('perfil');
+			$this->load->model('usuarios_model');
+			$data=$this->usuarios_model->set_perfil($data,$usr);
+			$this->output
+		   	->set_status_header(200)
+		   	->set_content_type('application/json', 'utf-8')
+		   	->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+		   	->_display();
+		   	exit;
+		}
+	}
+
 	function permisos(){
 		$login=$this->control->control_login();
 		if($login==TRUE){
@@ -106,6 +122,44 @@ class Usuarios extends CI_Controller {
 		}
 	}
 
+	function psw_admin(){
+		$login=$this->control->control_login();
+		if($login==TRUE){
+			$usr=$this->session->userdata('usr');
+			if($usr=='admin'){
+				$data=array('admin'=>'OK');
+				$this->load->view('usuarios/usr_admin',$data);
+			}else{
+				$data=array('admin'=>'NO');
+				$this->load->view('usuarios/usr_admin',$data);
+			}
+		}
+
+	}
+
+	function set_pws_admin(){
+		$login=$this->control->control_login();
+		$psw=$this->input->post('pws1');
+		if($login==TRUE){
+			$usr=$this->session->userdata('usr');
+			if($usr=='admin'){
+				$this->load->model('usuarios_model');
+				$data=$this->usuarios_model->pws_admin($psw);
+			}else{
+				$data = array(
+					'estatus' => 'ERROR',
+					'msg'=>'No se pudo actualizar el password'
+				);
+			}
+		}
+		$this->output
+		        ->set_status_header(200)
+		        ->set_content_type('application/json', 'utf-8')
+		        ->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+		        ->_display();
+		exit;
+	}
+
 	function edit_usr(){
 		$login=$this->control->control_login();
 		if($login==TRUE){
@@ -119,7 +173,6 @@ class Usuarios extends CI_Controller {
 					'sector'=>$data['sector'],
 					'apellido_nombre'=>$data['apellido_nombre'],
 					'id_perfil'=>$data['id_perfil'],
-					'id_personal'=>$data['id_personal'],
 					'perfil'=>$data['perfil'],
 					'clave'=>$data['clave'],
 					'conectado'=>$data['conectado'],
@@ -137,7 +190,6 @@ class Usuarios extends CI_Controller {
 					'sector'=>'',
 					'apellido_nombre'=>'',
 					'id_perfil'=>'',
-					'id_personal'=>'',
 					'perfil'=>'',
 					'clave'=>'',
 					'conectado'=>'0',
@@ -179,7 +231,6 @@ class Usuarios extends CI_Controller {
 				'apellido_nombre'=>$this->input->post('apellido_nombre'),
 				'id_sector'=>$this->input->post('id_sector'),
 				'id_perfil'=>$this->input->post('id_perfil'),
-				'id_personal'=>$this->input->post('id_personal'),
 				'bloqueado'=>$this->input->post('bloqueado'),
 				'conectado'=>$this->input->post('conectado'),
 				'activo'=>$this->input->post('activo'),

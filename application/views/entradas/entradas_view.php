@@ -212,13 +212,14 @@
     $("#help").click(function(){
       help_window();
     });
-
+/*
     $("#fecha").datepicker({
         dateFormat:'dd/mm/yy',
         dayNamesMin:['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
         monthNames:['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         //minDate: new Date(2016, 6, 25)
     });
+    */
     $("#fecha").change(function(){
       NormalClass("#fecha");
     });
@@ -1257,7 +1258,7 @@ function ValidarForm(){
     </div>
     <div class="celda_right">
       <div><label class="etiqueta">Fecha: </label></div>
-      <input type="text" id="fecha" name="fecha" value=""  class="ui-widget " style="width:8em;text-align:center;">
+      <input type="Date" id="fecha" name="fecha" value=""  class="ui-widget " style="width:8em;text-align:center;">
     </div>
   </div>
   <div class="linea">
