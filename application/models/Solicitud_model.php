@@ -192,7 +192,8 @@ class Solicitud_model extends CI_Model {
 		$obs=utf8_decode($data['obs']);
 		$sector=utf8_decode($data['sector']);
 		$centro_costo=$data['centro_costo'];
-		$fecha=$this->control->ParseDMYtoYMD($data['fecha'],'/');
+		//$fecha=$this->control->ParseDMYtoYMD($data['fecha'],'/');
+		$fecha=$this->control->$data['fecha'];
 		$web=$data['web'];
 
 		if($web==1){
@@ -331,19 +332,19 @@ class Solicitud_model extends CI_Model {
 				$new_row['nro']=$row['nro'];
 				$new_row['id_pedido']=$row['id_pedido'];
 				$new_row['id_zona']=$row['id_zona'];
-				$new_row['sector']=utf8_encode($row['sector']);
-				$new_row['zona']=utf8_encode($row['Zona']);
-				$new_row['localidad']=utf8_encode($row['Localidad']);
-				$new_row['direccion']=utf8_encode($row['Direccion']);
+				$new_row['sector']=$row['sector'];
+				$new_row['zona']=$row['Zona'];
+				$new_row['localidad']=$row['Localidad'];
+				$new_row['direccion']=$row['Direccion'];
 				$new_row['id_personal']=$row['id_personal'];
 				$new_row['legajo']=$row['legajo'];
-				$new_row['apellido_nombre']=utf8_encode($row['apellido_nombre']);
+				$new_row['apellido_nombre']=$row['apellido_nombre'];
 				$new_row['id_tipo_mov']=$tipo_mov;
 				$new_row['devolucion']=$devolucion;
-				$new_row['odt']=utf8_encode($row['odt']);
-				$new_row['obs']=utf8_encode($row['destino']);
+				$new_row['odt']=$row['odt'];
+				$new_row['obs']=$row['destino'];
 				$new_row['centro_costo']=$row['centro_costo'];
-				$new_row['denominacion']=utf8_encode($row['denominacion']);
+				$new_row['denominacion']=$row['denominacion'];
 				$new_row['fecha']=$this->control->ParseDMYtoYMD($row['fecha'],'/');
 				$new_row['id_sector']=$row['id_sector'];
 			}
@@ -362,10 +363,10 @@ class Solicitud_model extends CI_Model {
 					$linea['id_detalle_pedido']=$row['id_detalle_pedido'];
 					$linea['barcode']=$row['barcode'];
 					$linea['id_material']=$row['id_material'];
-					$linea['material']=utf8_encode($row['descripcion']);
-					$linea['unidad']=utf8_encode($row['unidad']);
-					$linea['solicitado']=utf8_encode($row['solicitado']);
-					$linea['cant_aut']=utf8_encode($row['cant_aut']);
+					$linea['material']=$row['descripcion'];
+					$linea['unidad']=$row['unidad'];
+					$linea['solicitado']=$row['solicitado'];
+					$linea['cant_aut']=$row['cant_aut'];
 					if($devolucion==true){
 						$linea['cantidad']=0;
 						$linea['cant_stock']=$row['despachado'];
@@ -373,7 +374,7 @@ class Solicitud_model extends CI_Model {
 						$linea['cantidad']=$row['cantidad']-$row['despachado'];
 						$linea['cant_stock']=$row['cant_stock'];
 					}
-					$linea['ubicacion']=utf8_encode($row['ubicacion']);
+					$linea['ubicacion']=$row['ubicacion'];
 					$linea['costo_ult']=$row['costo_ult'];
 					$linea['costo_pp']=$row['costo_pp'];
 					$linea['linea']=$row['costo_ult']*$row['cantidad'];
@@ -538,20 +539,20 @@ class Solicitud_model extends CI_Model {
 		if($query->num_rows() > 0){
 			
 	        foreach ($query->result_array() as $row){
-	        	$new_row['id_deposito']=utf8_encode($row['id_deposito']);
-	        	$new_row['deposito']=utf8_encode($row['deposito']);
-	        	$new_row['fecha']=utf8_encode($this->control->ParseDMYtoYMD($row['fecha'],'/'));
-	        	$new_row['nro']=utf8_encode($row['nro']);
-	        	$new_row['odt']=utf8_encode($row['odt']);
-	        	$new_row['destino']=utf8_encode($row['destino']);
-	        	$new_row['retira']=utf8_encode($row['retira']);
-	        	$new_row['apellido_nombre']=utf8_encode($row['apellido_nombre']);
-	        	$new_row['Zona']=utf8_encode($row['Zona']);
-	        	$new_row['centro_costo']=utf8_encode($row['centro_costo']);
-	        	$new_row['denominacion']=utf8_encode($row['denominacion']);
-	        	$new_row['sector']=utf8_encode($row['sector']);
-	        	$new_row['Direccion']=utf8_encode($row['Direccion']);
-	        	$new_row['Localidad']=utf8_encode($row['Localidad']);
+	        	$new_row['id_deposito']=$row['id_deposito'];
+	        	$new_row['deposito']=$row['deposito'];
+	        	$new_row['fecha']=$this->control->ParseDMYtoYMD($row['fecha'],'/');
+	        	$new_row['nro']=$row['nro'];
+	        	$new_row['odt']=$row['odt'];
+	        	$new_row['destino']=$row['destino'];
+	        	$new_row['retira']=$row['retira'];
+	        	$new_row['apellido_nombre']=$row['apellido_nombre'];
+	        	$new_row['Zona']=$row['Zona'];
+	        	$new_row['centro_costo']=$row['centro_costo'];
+	        	$new_row['denominacion']=$row['denominacion'];
+	        	$new_row['sector']=$row['sector'];
+	        	$new_row['Direccion']=$row['Direccion'];
+	        	$new_row['Localidad']=$row['Localidad'];
 	        	$new_row['cumplimiento']=$row['despachado'].' / '.$row['cantidad'];
 	        /*	$new_row['bultos']='';
 	        	$new_row['print']='No';*/
@@ -571,20 +572,20 @@ class Solicitud_model extends CI_Model {
 		if($query->num_rows() > 0){
 			
 	        foreach ($query->result_array() as $row){
-	        	$new_row['id_deposito']=utf8_encode($row['id_deposito']);
-	        	$new_row['deposito']=utf8_encode($row['deposito']);
-	        	$new_row['fecha']=utf8_encode($this->control->ParseDMYtoYMD($row['fecha'],'/'));
-	        	$new_row['nro']=utf8_encode($row['nro']);
-	        	$new_row['odt']=utf8_encode($row['odt']);
-	        	$new_row['destino']=utf8_encode($row['destino']);
-	        	$new_row['retira']=utf8_encode($row['retira']);
-	        	$new_row['apellido_nombre']=utf8_encode($row['apellido_nombre']);
-	        	$new_row['Zona']=utf8_encode($row['Zona']);
-	        	$new_row['centro_costo']=utf8_encode($row['centro_costo']);
-	        	$new_row['denominacion']=utf8_encode($row['denominacion']);
-	        	$new_row['sector']=utf8_encode($row['sector']);
-	        	$new_row['Direccion']=utf8_encode($row['Direccion']);
-	        	$new_row['Localidad']=utf8_encode($row['Localidad']);
+	        	$new_row['id_deposito']=$row['id_deposito'];
+	        	$new_row['deposito']=$row['deposito'];
+	        	$new_row['fecha']=$this->control->ParseDMYtoYMD($row['fecha'],'/');
+	        	$new_row['nro']=$row['nro'];
+	        	$new_row['odt']=$row['odt'];
+	        	$new_row['destino']=$row['destino'];
+	        	$new_row['retira']=$row['retira'];
+	        	$new_row['apellido_nombre']=$row['apellido_nombre'];
+	        	$new_row['Zona']=$row['Zona'];
+	        	$new_row['centro_costo']=$row['centro_costo'];
+	        	$new_row['denominacion']=$row['denominacion'];
+	        	$new_row['sector']=$row['sector'];
+	        	$new_row['Direccion']=$row['Direccion'];
+	        	$new_row['Localidad']=$row['Localidad'];
 
 	        	$new_row['cumplimiento']=$row['despachado'].' / '.$row['cantidad'];
 	        /*	$new_row['bultos']='';

@@ -214,14 +214,14 @@ class Contable_model extends CI_Model {
 	    foreach ($a as $v) {
 	      if($v!=NULL){
 	        if($where==""){
-	          $where=" where proveedor like '%".$v."%'";
+	          $where=" where m.proveedor like '%".$v."%'";
 	        }else{
-	          $where=$where." and proveedor like '%".$v."%'";
+	          $where=$where." and m.proveedor like '%".$v."%'";
 	        }
 	      }
 	    }
 
-	   $where="select m.id_proveedor, m.proveedor from ".BBDD_ODBC_SQLSRV."[proveedores] m".$where.";";
+	   $where="select m.id_proveedor, m.proveedor from ".BBDD_ODBC_SQLSRV."proveedores m".$where.";";
 
 	    $query = $this->db->query($where);
 
