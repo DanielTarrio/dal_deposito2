@@ -36,7 +36,7 @@ $(function() {
       //alert("ups");
       $("#jqGrid").jqGrid("clearGridData", true).trigger("reloadGrid");
   });
-  
+  /*
   $("#FechaInicio").datepicker({
     dateFormat:'dd/mm/yy',
     dayNamesMin:['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
@@ -53,7 +53,7 @@ $(function() {
     monthNames:['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     //minDate: new Date(2016, 6, 25)
   });
-
+  */
   $("#material").autocomplete({
       source: function(request, response) {
         $.ajax({
